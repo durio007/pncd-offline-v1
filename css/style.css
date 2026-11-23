@@ -1,0 +1,102 @@
+
+/* ==========================================
+   PNCD V9 OFFLINE - CMB-SOFT
+   Soluções Inteligentes
+   ========================================== */
+
+:root {
+    --azul-escuro: #071426;
+    --azul-principal: #007BFF;
+    --ciano: #00B8D9;
+    --texto: #FFFFFF;
+}
+
+/* Configuração geral */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fundo original do PNCD V9 */
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    background-color: var(--azul-escuro);
+
+    background-image:
+        linear-gradient(
+            rgba(7, 20, 38, 0.88),
+            rgba(7, 20, 38, 0.88)
+        ),
+        url("../imagens/logo_cmb_soft.png");
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover, min(65vw, 700px);
+    background-attachment: fixed;
+
+    color: var(--texto);
+}
+
+/* Área principal */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: #FFFFFF;
+    text-align: center;
+}
+
+/* Botões no padrão CMB-SOFT */
+.btn-principal {
+    background: linear-gradient(
+        90deg,
+        var(--azul-principal),
+        var(--ciano)
+    );
+
+    color: #FFFFFF;
+    border: 1px solid #00D4FF;
+    border-radius: 10px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-principal:hover {
+    background: linear-gradient(
+        90deg,
+        #0056B3,
+        #008FA8
+    );
+}
+
+/* Adaptação para tablets e celulares */
+@media (max-width: 768px) {
+    body {
+        background-size: cover, 85vw;
+        background-attachment: scroll;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+    .btn-principal {
+        width: 100%;
+        min-height: 48px;
+    }
+}

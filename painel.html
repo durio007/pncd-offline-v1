@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Principal | PNCD Offline</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <meta name="theme-color" content="#007BFF">
+    <!-- PNCD OFFLINE - LOGO CMB-SOFT NO FUNDO -->
+<!-- PNCD OFFLINE - FUNDO CMB-SOFT -->
+<style>
+    body {
+        min-height: 100vh;
+        margin: 0;
+
+        background-color: #061426;
+
+        background-image:
+            linear-gradient(
+                rgba(6, 20, 38, 0.76),
+                rgba(6, 20, 38, 0.76)
+            ),
+            url("imagens/logo_cmb_soft.png");
+
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 420px auto;
+        background-attachment: fixed;
+
+        color: #ffffff;
+    }
+
+    main {
+        color: #ffffff;
+    }
+
+    #mensagem-painel {
+        color: #00D4FF;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+    <main style="
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 25px;
+        text-align: center;
+    ">
+
+        <h1>PNCD V9 OFFLINE</h1>
+
+        <h2>CMB-SOFT — Soluções Inteligentes</h2>
+
+        <hr>
+
+        <h2>Painel Principal</h2>
+
+        <p>
+            Bem-vindo ao Sistema de Registro Diário
+            do Serviço Antivetorial.
+        </p>
+
+          <p id="mensagem-painel">
+            Preparando identificação do usuário...
+          </p>
+          <!-- PNCD OFFLINE - BOTÃO SAIR -->
+              <button
+                  type="button"
+                  id="btn-sair"
+                  style="
+                      margin-top: 15px;
+                      padding: 12px 30px;
+                      background-color: #b42318;
+                      color: #ffffff;
+                      border: none;
+                      border-radius: 8px;
+                      font-weight: bold;
+                      cursor: pointer;
+                  "
+                  >
+                  SAIR DO SISTEMA
+              </button>
+
+        <!-- PNCD OFFLINE - MENU PRINCIPAL -->
+<section
+    id="menu-painel"
+    style="
+        display: none;
+        margin-top: 35px;
+    "
+>
+    <h2>Menu do Sistema</h2>
+
+    <div style="
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+    ">
+
+        <button
+            type="button"
+            id="menu-formularios"
+            class="btn-principal"
+            style="min-width: 220px; padding: 15px;"
+        >
+            📋 Formulários Salvos
+        </button>
+
+        <button
+            type="button"
+            id="menu-usuarios"
+            class="btn-principal"
+            style="min-width: 220px; padding: 15px;"
+        >
+            👥 Gerenciar Usuários
+            </button>
+
+            <button
+            type="button"
+            id="menu-backup"
+            class="btn-principal"
+            style="min-width: 220px; padding: 15px;"
+         >
+            💾 Backup do Sistema
+            </button>
+
+    </div>
+</section>
+
+    </main>
+
+    <script>
+        // PNCD OFFLINE - VERIFICAÇÃO INICIAL DA SESSÃO
+
+        const dadosSessao = sessionStorage.getItem(
+            "pncd_usuario_logado"
+        );
+
+        if (!dadosSessao) {
+            window.location.replace("index.html");
+        } else {
+            try {
+            const usuario = JSON.parse(dadosSessao);
+
+                if (
+                    !usuario.id ||
+                    !usuario.nome ||
+                    !usuario.perfil
+                ) {
+                    throw new Error("Sessão incompleta.");
+                }
+
+                document.getElementById(
+                    "mensagem-painel"
+                ).textContent =
+                    "Bem-vindo, " + usuario.nome + "!";
+                // =====================================================
+                // PNCD OFFLINE - ENCERRAR SESSÃO
+                // =====================================================
+
+                const botaoSair = document.getElementById("btn-sair");
+
+                if (botaoSair) {
+
+                    botaoSair.addEventListener("click", () => {
+
+                        // Remove somente a sessão do PNCD.
+                        sessionStorage.removeItem("pncd_usuario_logado");
+
+                        // Retorna à tela de login.
+                        window.location.replace("index.html");
+
+                    });
+
+                }
+                    // PNCD OFFLINE - EXIBIÇÃO DO MENU POR PERFIL
+                  const menuPainel = document.getElementById("menu-painel");
+
+                  if (
+                    ["administrador", "supervisor", "agente"].includes(usuario.perfil)
+                 ) {
+
+                    menuPainel.style.display = "block";
+
+                    // PNCD OFFLINE - CONTROLE VISUAL DOS BOTÕES POR PERFIL
+
+                        const botaoUsuariosAdmin =
+                            document.getElementById("menu-usuarios");
+
+                        const botaoBackupAdmin =
+                            document.getElementById("menu-backup");
+
+                            // PNCD OFFLINE - BACKUP COMPLETO DO SISTEMA
+                            if (botaoBackupAdmin && usuario.perfil === "administrador") {
+
+                                botaoBackupAdmin.addEventListener("click", async () => {
+
+                                    const confirmar = confirm(
+                                        "Deseja gerar um backup completo do Sistema PNCD?"
+                                    );
+
+                                    if (!confirmar) {
+                                        return;
+                                    }
+
+                                    try {
+                                        if (typeof gerarBackupCompletoPNCD !== "function") {
+                                            throw new Error("Função de backup não disponível.");
+                                        }
+
+                                        const resultado = await gerarBackupCompletoPNCD();
+
+                                        alert(
+                                            "Backup gerado com sucesso!\n\n" +
+                                            "Formulários: " + resultado.formularios + "\n" +
+                                            "Imóveis: " + resultado.imoveis + "\n" +
+                                            "Usuários: " + resultado.usuarios
+                                        );
+
+                                    } catch (erro) {
+                                        console.error("Erro ao gerar backup:", erro);
+
+                                        alert(
+                                            "Não foi possível gerar o backup.\n\n" +
+                                            erro.message
+                                        );
+                                    }
+
+                                });
+                            }
+
+                        if (usuario.perfil !== "administrador") {
+
+                            if (botaoUsuariosAdmin) {
+                                botaoUsuariosAdmin.style.display = "none";
+                            }
+
+                            if (botaoBackupAdmin) {
+                                botaoBackupAdmin.style.display = "none";
+                            }
+                        }
+
+                      console.log(
+                          "PNCD Offline: menu do administrador exibido."
+                      );
+                      // PNCD OFFLINE - ABRIR FORMULÁRIOS SALVOS
+                          const botaoFormularios = document.getElementById(
+                              "menu-formularios"
+                          );
+
+                          if (botaoFormularios) {
+
+                              botaoFormularios.addEventListener("click", () => {
+
+                                  window.location.href = "formularios.html";
+
+                              });
+
+                            }
+                            // PNCD OFFLINE - ABRIR GERENCIAMENTO DE USUÁRIOS
+                            // =====================================================
+                            const botaoUsuarios = document.getElementById(
+                                "menu-usuarios"
+                            );
+
+                            if (botaoUsuarios) {
+
+                                botaoUsuarios.addEventListener("click", () => {
+
+                                    window.location.href = "usuarios.html";
+
+                                });
+                           }
+                    }
+                  } catch (erro) {
+                sessionStorage.removeItem(
+                    "pncd_usuario_logado"
+                );
+
+                window.location.replace("index.html");
+            }
+        }
+        </script>
+
+    <!-- PNCD OFFLINE - FUNÇÕES DO BANCO DE DADOS -->
+    <script src="js/banco.js"></script>
+
+</body>
+</html>

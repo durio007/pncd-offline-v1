@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+        <title>Formulários Salvos | PNCD Offline</title>
+
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#007BFF">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>PNCD V9 OFFLINE</h1>
+
+        <h2>Formulários Salvos</h2>
+
+        <p style="text-align: center;">
+            CMB-SOFT | Soluções Inteligentes
+        </p>
+
+        <div style="
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 24px;
+            background: rgba(7, 20, 38, 0.85);
+            border: 1px solid #00B8D9;
+            border-radius: 14px;
+        ">
+
+            <h3>Meus formulários</h3>
+
+            <!-- BOTÃO NOVO FORMULÁRIO - PNCD OFFLINE -->
+
+                <div style="text-align: center; margin: 20px 0;">
+
+                    <button
+                        type="button"
+                        id="btn-novo-formulario"
+                        style="
+                            padding: 14px 24px;
+                            width: 100%;
+                            max-width: 350px;
+                            background: #007BFF;
+                            color: white;
+                            border: none;
+                            border-radius: 10px;
+                            font-weight: bold;
+                            font-size: 16px;
+                            cursor: pointer;
+                            opacity: 1;
+                        "
+                    >
+                        ➕ NOVO FORMULÁRIO
+                    </button>
+
+                </div>
+
+            <p style="text-align: center; color: #AFC7D8;">
+                Consulte os registros armazenados no dispositivo.
+            </p>
+
+            <div id="lista-formularios"
+                 aria-live="polite">
+                <p>Carregando formulários...</p>
+            </div>
+
+        </div>
+
+        <div style="text-align: center;">
+            <a href="painel.html"
+                style="color: #00D4FF;">
+             ⬅ Voltar ao Painel Principal
+            </a>
+        </div>
+
+    </main>
+
+    <script src="js/banco.js"></script>
+
+    <script>
+        // Tela inicial de desenvolvimento.
+        // A autenticação dos agentes ainda será implementada.
+        document.addEventListener(
+            "DOMContentLoaded",
+            async () => {
+
+                const lista = document.getElementById(
+                    "lista-formularios"
+                );
+
+                try {
+                    // PNCD OFFLINE - IDENTIFICAR USUÁRIO AUTENTICADO
+
+                const dadosSessao = sessionStorage.getItem(
+                    "pncd_usuario_logado"
+                );
+
+                if (!dadosSessao) {
+                    window.location.replace("index.html");
+                    return;
+                }
+
+                const usuarioLogado = JSON.parse(dadosSessao);
+
+                if (
+                    !usuarioLogado.id ||
+                    !["administrador", "supervisor", "agente"].includes(
+                        usuarioLogado.perfil
+                    )
+                ) {
+                    throw new Error("Sessão inválida.");
+                }
+
+                // PNCD OFFLINE - CONSULTA DE FORMULÁRIOS POR PERFIL
+                    
+                    let formularios;
+
+                    if (usuarioLogado.perfil === "administrador") {
+
+                        // Administrador consulta todos os formulários
+                        formularios = await listarTodosFormularios();
+
+                    } else if (usuarioLogado.perfil === "supervisor") {
+
+                        // Supervisor consulta os formulários dos agentes vinculados
+                        formularios = await listarFormulariosSupervisorPNCD();
+
+                    } else if (usuarioLogado.perfil === "agente") {
+
+                        // Agente consulta somente seus próprios formulários
+                        formularios = await listarFormularios(usuarioLogado.id);
+
+                    } else {
+
+                        throw new Error("Perfil de usuário não autorizado.");
+
+                    }
+
+
+                    lista.replaceChildren();
+
+                    if (formularios.length === 0) {
+                        const mensagem =
+                            document.createElement("p");
+
+                        mensagem.textContent =
+                            "Nenhum formulário encontrado.";
+
+                        lista.appendChild(mensagem);
+                        return;
+                    }
+
+                    formularios.forEach((formulario) => {
+
+                        const item = document.createElement("div");
+
+                        item.style.padding = "15px";
+                        item.style.marginBottom = "12px";
+                        item.style.border = "1px solid #234A66";
+                        item.style.borderRadius = "10px";
+
+                        const titulo =
+                            document.createElement("strong");
+
+                        titulo.textContent =
+                            formulario.localidade ||
+                            "Localidade não informada";
+
+                        const detalhes =
+                            document.createElement("p");
+
+                        detalhes.textContent =
+                            "Status: " +
+                            (formulario.status || "Não informado") +
+                            " | Data: " +
+                            (formulario.data_atividade || "Não informada");
+
+                        
+item.appendChild(titulo);
+item.appendChild(detalhes);
+
+// Botão para continuar o preenchimento de rascunhos
+if (
+    usuarioLogado.perfil === "agente" &&
+    String(formulario.agente_id) === String(usuarioLogado.id) &&
+    formulario.status === "rascunho"
+) {
+
+    const botao = document.createElement("button");
+
+    botao.textContent = "CONTINUAR PREENCHIMENTO";
+    botao.type = "button";
+
+    botao.style.marginTop = "10px";
+    botao.style.padding = "12px";
+    botao.style.width = "100%";
+    botao.style.cursor = "pointer";
+
+   
+botao.addEventListener("click", async () => {
+
+    try {
+        const rascunho = await reabrirRascunho(
+            formulario.id
+        );
+
+        // Abre a página de edição com o ID do rascunho
+        window.location.href =
+            "editar_formulario.html?id=" +
+            encodeURIComponent(rascunho.id);
+
+    } catch (erro) {
+        alert(
+            "Erro ao recuperar rascunho: " +
+            erro.message
+        );
+    }
+
+});
+
+
+    item.appendChild(botao);
+}
+
+// PNCD OFFLINE - BOTÃO IMPRIMIR FAD 01
+const botaoImprimir = document.createElement("button");
+
+botaoImprimir.textContent = "🖨️ IMPRIMIR FAD 01";
+botaoImprimir.type = "button";
+
+botaoImprimir.style.marginTop = "10px";
+botaoImprimir.style.padding = "12px";
+botaoImprimir.style.width = "100%";
+botaoImprimir.style.cursor = "pointer";
+
+botaoImprimir.addEventListener("click", () => {
+
+    window.location.href =
+        "imprimir_formulario.html?id=" +
+        encodeURIComponent(formulario.id);
+
+});
+
+item.appendChild(botaoImprimir);
+
+
+// ETAPA 177.9.64.3 - BOTÃO REABRIR FAD 01
+
+if (
+    formulario.status === "finalizado" &&
+    ["administrador", "supervisor"].includes(usuarioLogado.perfil)
+) {
+    const botaoReabrir = document.createElement("button");
+
+    botaoReabrir.type = "button";
+    botaoReabrir.textContent = "🔓 REABRIR FAD 01";
+
+    botaoReabrir.style.marginTop = "10px";
+    botaoReabrir.style.padding = "12px";
+    botaoReabrir.style.width = "100%";
+    botaoReabrir.style.cursor = "pointer";
+    botaoReabrir.style.backgroundColor = "#D97706";
+    botaoReabrir.style.color = "#FFFFFF";
+    botaoReabrir.style.border = "none";
+    botaoReabrir.style.borderRadius = "6px";
+
+    botaoReabrir.addEventListener("click", async () => {
+
+        const motivo = window.prompt(
+            "Informe o motivo da reabertura do FAD 01:"
+        );
+
+        if (motivo === null) return;
+
+        if (!motivo.trim()) {
+            alert("O motivo da reabertura é obrigatório.");
+            return;
+        }
+
+        const confirmar = window.confirm(
+            "Confirma a reabertura deste FAD 01?\n\n" +
+            "O formulário voltará ao status de rascunho.\n" +
+            "A operação será registrada na auditoria."
+        );
+
+        if (!confirmar) return;
+
+        botaoReabrir.disabled = true;
+
+        try {
+            await reabrirFormularioFinalizadoPNCD(
+                formulario.id,
+                motivo
+            );
+
+            alert("FAD 01 reaberto com sucesso!");
+
+            window.location.reload();
+
+        } catch (erro) {
+            console.error("Erro na reabertura:", erro);
+            alert("Não foi possível reabrir:\n" + erro.message);
+            botaoReabrir.disabled = false;
+        }
+    });
+
+    item.appendChild(botaoReabrir);
+}
+
+
+lista.appendChild(item);
+
+            });
+
+                } catch (erro) {
+                    lista.textContent =
+                        "Erro ao consultar formulários: " +
+                        erro.message;
+                }
+            }
+        );
+        // PNCD OFFLINE - CRIAÇÃO DE NOVO FORMULÁRIO
+
+document.getElementById("btn-novo-formulario")
+    .addEventListener("click", async function () {
+
+        const botao = this;
+
+        try {
+            const dadosSessao = sessionStorage.getItem(
+                "pncd_usuario_logado"
+            );
+
+            if (!dadosSessao) {
+                alert("Sessão expirada. Entre novamente.");
+                window.location.replace("index.html");
+                return;
+            }
+
+            const usuario = JSON.parse(dadosSessao);
+
+            if (
+                !usuario.id ||
+                usuario.perfil !== "agente"
+            ) {
+                alert(
+                    "Somente agentes podem criar formulários nesta etapa."
+                );
+                return;
+            }
+
+            botao.disabled = true;
+            botao.textContent = "CRIANDO FORMULÁRIO...";
+
+            const novoFormulario = {
+                agente_id: usuario.id,
+                agente_nome: usuario.nome,
+                agente_matricula: usuario.matricula,
+                status: "rascunho",
+                criado_em: new Date().toISOString(),
+                atualizado_em: new Date().toISOString()
+            };
+
+            const formularioId = await salvarFormulario(
+                novoFormulario
+            );
+
+            window.location.href =
+                "editar_formulario.html?id=" +
+                encodeURIComponent(formularioId);
+
+        } catch (erro) {
+            console.error(
+                "Erro ao criar formulário:",
+                erro
+            );
+
+            alert(
+                "Não foi possível criar o formulário: " +
+                erro.message
+            );
+
+            botao.disabled = false;
+            botao.textContent = "➕ NOVO FORMULÁRIO";
+        }
+    });
+    </script>
+
+</body>
+</html>

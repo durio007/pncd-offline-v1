@@ -1,0 +1,3766 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Editar Formulário | PNCD Offline</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#007BFF">
+
+
+<style>
+/* PNCD - Identificação do imóvel */
+
+.grade-identificacao-imovel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+    width: 100%;
+}
+
+.campo-identificacao {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.campo-identificacao label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.campo-identificacao input,
+.campo-identificacao select {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 11px;
+    border: 1px solid #b8c8d6;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #17283b;
+    font-size: 15px;
+}
+
+.campo-identificacao input:focus,
+.campo-identificacao select:focus {
+    outline: 2px solid #00b8d9;
+    outline-offset: 1px;
+}
+
+/* Ajuste para celulares */
+@media (max-width: 480px) {
+    .grade-identificacao-imovel {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <h1>PNCD V9 OFFLINE</h1>
+
+        <h2>Continuar preenchimento</h2>
+
+        <p style="text-align: center;">
+            CMB-SOFT | Soluções Inteligentes
+        </p>
+
+        <div style="
+            max-width: 700px;
+            margin: 30px auto;
+            padding: 24px;
+            background: rgba(7, 20, 38, 0.85);
+            border: 1px solid #00B8D9;
+            border-radius: 14px;
+          ">
+
+            <h3>Dados do formulário</h3>
+
+            <p>
+                Confira e continue preenchendo
+                os dados do formulário selecionado.
+            </p>
+
+            <div id="dados-formulario">
+                <p>Carregando formulário...</p>
+            </div>
+
+        </div>
+
+<!-- REGISTRO DE IMÓVEIS - FAD 01 -->
+<section
+    id="secao-imoveis"
+    style="
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 24px;
+        background: rgba(7, 20, 38, 0.85);
+        border: 1px solid #00B8D9;
+        border-radius: 14px;
+    "
+>
+    <h3>Pesquisa Entomológica / Tratamento</h3>
+
+    <p>
+        Registro dos imóveis visitados pelo agente,
+        conforme o formulário FAD 01 do PNCD.
+    </p>
+
+
+<button
+    type="button"
+    id="btn-adicionar-imovel"
+    style="
+        width: 100%;
+        padding: 14px;
+        margin: 16px 0;
+        background: #007A91;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    "
+>
+    + ADICIONAR IMÓVEL
+</button>
+
+<!-- FORMULÁRIO DE CADASTRO DE IMÓVEL -->
+<div
+    id="cadastro-imovel"
+    hidden
+    style="
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #00B8D9;
+        border-radius: 10px;
+    "
+>
+    <h4>Identificação do imóvel</h4>
+
+    <p>
+        Preencha os dados do imóvel visitado.
+    </p>
+
+    
+  <div id="campos-imovel">
+
+    
+<div class="grade-identificacao-imovel">
+
+    <div class="campo-identificacao">
+        <label for="imovel-quarteirao">Quart.</label>
+        <input type="text" id="imovel-quarteirao">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-sequencia">Seq.</label>
+        <input type="text" id="imovel-sequencia">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-lado">Lado</label>
+        <input type="text" id="imovel-lado">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-logradouro">Logradouro</label>
+        <input type="text" id="imovel-logradouro">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-numero">Nº Imóvel</label>
+        <input type="text" id="imovel-numero">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-sequencia-imovel">Seq. Imóvel</label>
+        <input type="text" id="imovel-sequencia-imovel">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-complemento">Complemento</label>
+        <input type="text" id="imovel-complemento">
+    </div>
+
+    <div class="campo-identificacao">
+        <label for="imovel-tipo">Tipo Imóvel</label>
+        <input type="text" id="imovel-tipo">
+    </div>
+
+</div>
+
+<!-- VISITA E PENDÊNCIA -->
+<div style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Visita e Pendência
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="imovel-hora">Hora da Visita</label>
+            <input type="time" id="imovel-hora">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-visita">Tipo de Visita</label>
+            <select id="imovel-visita">
+                <option value="">Selecione</option>
+                <option value="N">N - Normal</option>
+                <option value="R">R - Recuperação</option>
+            </select>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-pendencia">Pendência</label>
+            <select id="imovel-pendencia">
+                <option value="">Sem pendência</option>
+                <option value="F">F - Fechado</option>
+                <option value="R">R - Recusa</option>
+            </select>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- DEPÓSITOS -->
+<div style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Depósitos
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-a1">A1</label>
+            <input type="number" id="imovel-deposito-a1"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-a2">A2</label>
+            <input type="number" id="imovel-deposito-a2"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-b">B</label>
+            <input type="number" id="imovel-deposito-b"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-c">C</label>
+            <input type="number" id="imovel-deposito-c"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-d1">D1</label>
+            <input type="number" id="imovel-deposito-d1"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-d2">D2</label>
+            <input type="number" id="imovel-deposito-d2"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-deposito-e">E</label>
+            <input type="number" id="imovel-deposito-e"
+                   min="0" step="1" inputmode="numeric">
+        </div>
+
+    </div>
+</div>
+
+<!-- INSPEÇÃO E COLETA -->
+<div style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Inspeção e Coleta
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="imovel-inspecionados-li">
+                Inspecionados (LI)
+            </label>
+            <input type="number"
+                   id="imovel-inspecionados-li"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-numero-amostra">
+                Nº da Amostra
+            </label>
+            <input type="text"
+                   id="imovel-numero-amostra">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-quantidade-tubitos">
+                Quantidade de Tubitos
+            </label>
+            <input type="number"
+                   id="imovel-quantidade-tubitos"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-coleta-inicial">
+                Coleta Inicial
+            </label>
+            <input type="text"
+                   id="imovel-coleta-inicial">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-coleta-final">
+                Coleta Final
+            </label>
+            <input type="text"
+                   id="imovel-coleta-final">
+        </div>
+
+    </div>
+</div>
+
+<!-- TRATAMENTO -->
+<div style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Tratamento
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="imovel-depositos-eliminados">
+                Depósitos Eliminados
+            </label>
+            <input type="number"
+                   id="imovel-depositos-eliminados"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-imoveis-tratados">
+                Imóveis Tratados
+            </label>
+            <input type="number"
+                   id="imovel-imoveis-tratados"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-l1">
+                L1
+            </label>
+            <input type="number"
+                   id="imovel-l1"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-carga-larvicida">
+                Carga Larvicida
+            </label>
+            <input type="number"
+                   id="imovel-carga-larvicida"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-quantidade-tratados">
+                Quantidade de Depósitos Tratados
+            </label>
+            <input type="number"
+                   id="imovel-quantidade-tratados"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-adulticida">
+                Adulticida
+            </label>
+            <input type="number"
+                   id="imovel-adulticida"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-cargas-adulticida">
+                Cargas Adulticida
+            </label>
+            <input type="number"
+                   id="imovel-cargas-adulticida"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-perifocal">
+                Perifocal
+            </label>
+            <input type="number"
+                   id="imovel-perifocal"
+                   min="0" step="1">
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="imovel-cargas-perifocal">
+                Cargas Perifocal
+            </label>
+            <input type="number"
+                   id="imovel-cargas-perifocal"
+                   min="0" step="1">
+        </div>
+
+    </div>
+</div>
+
+
+<button type="button" id="btn-salvar-imovel"
+    style="width:100%; margin-top:20px; padding:12px;
+           background:#07829A; color:white;
+           border:none; border-radius:8px;
+           font-weight:bold; cursor:pointer;">
+    SALVAR IMÓVEL
+</button>
+
+<!-- BOTÃO CANCELAR EDIÇÃO - INICIALMENTE OCULTO -->
+<button
+    type="button"
+    id="btn-cancelar-edicao-imovel"
+    hidden
+    style="
+        width:100%;
+        margin-top:10px;
+        padding:12px;
+        background:#64748b;
+        color:white;
+        border:none;
+        border-radius:8px;
+        font-weight:bold;
+        cursor:pointer;
+    "
+>
+    CANCELAR EDIÇÃO
+</button>
+
+<!-- Mensagem de confirmação do cadastro -->
+<div
+    id="mensagem-imovel-salvo"
+    role="status"
+    aria-live="polite"
+    hidden
+    style="
+        margin-top: 12px;
+        padding: 12px;
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        border-radius: 8px;
+        font-weight: 600;
+        text-align: center;
+    "
+>
+    ✓ Imóvel salvo com sucesso!
+</div>
+
+  </div>
+
+</div>
+<!-- FIM DO CADASTRO DE IMÓVEL -->
+    <div id="lista-imoveis">
+        <p>Nenhum imóvel exibido nesta seção.</p>
+    </div>
+
+<!-- INÍCIO DA LIXEIRA DE IMÓVEIS -->
+<section
+    id="secao-lixeira-imoveis"
+    style="
+        margin-top: 24px;
+        padding: 16px;
+        border: 1px solid #cccccc;
+        border-radius: 10px;
+    "
+>
+    <h3>🗑️ Lixeira de Imóveis</h3>
+
+    <p>
+        Os imóveis enviados para a lixeira
+        poderão ser restaurados sem perder
+        seus dados originais.
+    </p>
+
+    <button
+        type="button"
+        id="btn-abrir-lixeira"
+        aria-expanded="false"
+        aria-controls="lista-imoveis-lixeira"
+    >
+        VER LIXEIRA DE IMÓVEIS
+    </button>
+
+    <div
+        id="lista-imoveis-lixeira"
+        hidden
+        style="margin-top: 16px;"
+    >
+        <p>A lixeira ainda não foi carregada.</p>
+    </div>
+</section>
+<!-- FIM DA LIXEIRA DE IMÓVEIS -->
+
+<!-- INÍCIO DA VALIDAÇÃO DE BACKUP PNCD -->
+
+<section
+    id="secao-validar-backup"
+    style="margin-top:24px;padding:16px;border:1px solid #cccccc;border-radius:10px;"
+>
+    <h3>📁 Validar Backup do PNCD</h3>
+
+    <p>
+        Selecione um arquivo JSON para verificar
+        seu conteúdo antes de qualquer restauração.
+    </p>
+
+    <p>
+        Esta operação não modifica os imóveis
+        nem os formulários cadastrados.
+    </p>
+
+    <label for="arquivo-backup-pncd">
+        <strong>Selecionar arquivo de backup:</strong>
+    </label>
+
+    <input
+        type="file"
+        id="arquivo-backup-pncd"
+        accept=".json,application/json"
+        style="display:block;margin-top:10px;margin-bottom:12px;"
+    >
+
+    <button
+        type="button"
+        id="btn-validar-backup-pncd"
+        style="background-color:#2563eb;color:white;border:none;border-radius:6px;padding:10px 16px;font-weight:bold;cursor:pointer;"
+    >
+        VALIDAR BACKUP JSON
+    </button>
+
+    <div
+        id="resultado-validacao-backup"
+        role="status"
+        aria-live="polite"
+        style="margin-top:16px;"
+    >
+        Nenhum arquivo validado.
+    </div>
+
+</section>
+
+<!-- FIM DA VALIDAÇÃO DE BACKUP PNCD -->
+
+<!-- VISUALIZAÇÃO COMPLETA DO IMÓVEL -->
+<div id="detalhes-imovel"
+     hidden
+     style="
+         margin-top:24px;
+         padding:20px;
+         border:1px solid #00B8D9;
+         border-radius:10px;
+     ">
+
+    <h3 style="color:#00B8D9; margin-bottom:16px;">
+        Detalhes do Imóvel
+    </h3>
+
+    <div id="conteudo-detalhes-imovel"></div>
+
+    <button
+        type="button"
+        id="btn-fechar-detalhes"
+        style="
+            margin-top:20px;
+            padding:10px 18px;
+            background:#475569;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            font-weight:bold;
+        ">
+        FECHAR DETALHES
+    </button>
+
+</div>
+
+
+<!-- RESUMO DOS DEPÓSITOS -->
+<div id="resumo-depositos" style="margin-top: 24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Resumo dos Depósitos
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label>Total A1</label>
+            <input type="number" id="total-deposito-a1"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total A2</label>
+            <input type="number" id="total-deposito-a2"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total B</label>
+            <input type="number" id="total-deposito-b"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total C</label>
+            <input type="number" id="total-deposito-c"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total D1</label>
+            <input type="number" id="total-deposito-d1"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total D2</label>
+            <input type="number" id="total-deposito-d2"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total E</label>
+            <input type="number" id="total-deposito-e"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label>Total Geral</label>
+            <input type="number" id="total-geral-depositos"
+                   value="0" readonly>
+        </div>
+
+    </div>
+</div>
+
+<!-- RESUMO DE INSPEÇÃO E COLETA -->
+<div id="resumo-inspecao-coleta" style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Resumo de Inspeção e Coleta
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="total-inspecionados-li">
+                Total de Inspecionados (LI)
+            </label>
+            <input
+                type="number"
+                id="total-inspecionados-li"
+                value="0"
+                readonly
+            >
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-quantidade-tubitos">
+                Total de Tubitos
+            </label>
+            <input
+                type="number"
+                id="total-quantidade-tubitos"
+                value="0"
+                readonly
+            >
+        </div>
+
+    </div>
+</div>
+
+<!-- RESUMO DE TRATAMENTO -->
+<div id="resumo-tratamento" style="margin-top:24px;">
+
+    <h4 style="color:#00B8D9; margin-bottom:12px;">
+        Resumo de Tratamento
+    </h4>
+
+    <div class="grade-identificacao-imovel">
+
+        <div class="campo-identificacao">
+            <label for="total-depositos-eliminados">
+                Total de Depósitos Eliminados
+            </label>
+            <input type="number"
+                   id="total-depositos-eliminados"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-imoveis-tratados">
+                Total de Imóveis Tratados
+            </label>
+            <input type="number"
+                   id="total-imoveis-tratados"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-l1">
+                Total L1
+            </label>
+            <input type="number"
+                   id="total-l1"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-carga-larvicida">
+                Total de Carga Larvicida
+            </label>
+            <input type="number"
+                   id="total-carga-larvicida"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-quantidade-tratados">
+                Total de Depósitos Tratados
+            </label>
+            <input type="number"
+                   id="total-quantidade-tratados"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-adulticida">
+                Total de Adulticida
+            </label>
+            <input type="number"
+                   id="total-adulticida"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-cargas-adulticida">
+                Total de Cargas Adulticida
+            </label>
+            <input type="number"
+                   id="total-cargas-adulticida"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-perifocal">
+                Total de Perifocal
+            </label>
+            <input type="number"
+                   id="total-perifocal"
+                   value="0" readonly>
+        </div>
+
+        <div class="campo-identificacao">
+            <label for="total-cargas-perifocal">
+                Total de Cargas Perifocal
+            </label>
+            <input type="number"
+                   id="total-cargas-perifocal"
+                   value="0" readonly>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</section>
+<!-- FIM DO REGISTRO DE IMÓVEIS -->
+
+        <div style="text-align: center;">
+            <a href="formularios.html"
+               style="color: #00D4FF;">
+                Voltar aos formulários salvos
+            </a>
+        </div>
+
+    </main>
+
+<script src="js/banco.js?v=61"></script>
+
+
+    <script>
+        document.addEventListener(  
+            "DOMContentLoaded",
+            async () => {
+
+                const areaDados = document.getElementById(
+                    "dados-formulario"
+                );
+
+                // Identifica o formulário selecionado
+                const parametros = new URLSearchParams(
+                    window.location.search
+                );
+
+                const formularioId = parametros.get("id");
+
+                if (!formularioId) {
+                    areaDados.textContent =
+                        "Nenhum formulário foi selecionado.";
+                    return;
+                }
+
+                try {
+                    // ETAPA 177.9.62.18
+                    // Carregar formulários em rascunho ou finalizados
+                    const formulario = await buscarFormulario(formularioId);
+
+                    if (!formulario) {
+                        throw new Error("Formulário não encontrado.");
+                    }
+
+                    if (
+                        formulario.status !== "rascunho" &&
+                        formulario.status !== "finalizado"
+                    ) {
+                        throw new Error(
+                            "Status do formulário não permitido para esta página."
+                        );
+                    }
+
+                    
+                    // ETAPA 177.6 - VERIFICAR PERMISSÃO DE ACESSO
+                    const sessao = sessionStorage.getItem(
+                        "pncd_usuario_logado"
+                    );
+
+                    if (!sessao) {
+                        throw new Error(
+                            "Acesso negado. Faça login para continuar."
+                        );
+                    }
+
+                    let usuarioLogado;
+
+                    try {
+                        usuarioLogado = JSON.parse(sessao);
+                    } catch {
+                        throw new Error(
+                            "Sessão inválida. Faça login novamente."
+                        );
+                    }
+
+                    if (
+                        !usuarioLogado ||
+                        !usuarioLogado.id ||
+                        usuarioLogado.perfil !== "agente"
+                    ) {
+                        throw new Error(
+                            "Acesso negado. Esta página é exclusiva para agentes."
+                        );
+                    }
+
+                    if (
+                        String(formulario.agente_id) !==
+                        String(usuarioLogado.id)
+                    ) {
+                        throw new Error(
+                            "Acesso negado. Este formulário não pertence ao agente conectado."
+                        );
+                    }
+
+                    // Acesso autorizado
+                    areaDados.replaceChildren();
+
+                    // CONSULTAR IMÓVEIS DO FORMULÁRIO
+                    const imoveisDoFormulario = await listarImoveis(
+                        formularioId
+                    );
+                    // ATUALIZAR O RESUMO DOS DEPÓSITOS
+                    atualizarResumoDepositos(imoveisDoFormulario);
+                    atualizarResumoInspecaoColeta(imoveisDoFormulario);
+                    atualizarResumoTratamento(imoveisDoFormulario);
+
+                    console.log(
+                        "PNCD Offline: imóveis deste formulário:",
+                        imoveisDoFormulario.length
+                    );
+
+                    console.table(imoveisDoFormulario);
+
+                    // EXIBIR IMÓVEIS NA PÁGINA
+                    const listaImoveis = document.getElementById(
+                        "lista-imoveis"
+                    );
+
+                    if (listaImoveis) {
+
+                        listaImoveis.replaceChildren();
+
+                        if (imoveisDoFormulario.length === 0) {
+
+                            const mensagem = document.createElement("p");
+
+                            mensagem.textContent =
+                                "Nenhum imóvel cadastrado neste formulário.";
+
+                            listaImoveis.appendChild(mensagem);
+
+                        } else {
+
+                            imoveisDoFormulario.forEach((imovel, indice) => {
+
+                                const item = document.createElement("div");
+
+                                item.style.padding = "12px";
+                                item.style.marginBottom = "10px";
+                                item.style.border = "1px solid #00B8D9";
+                                item.style.borderRadius = "8px";
+
+                                const titulo = document.createElement("strong");
+
+                                
+                                titulo.textContent = "Imóvel " + (
+                                    imovel.numero_ordem ?? (indice + 1)
+                                );
+
+
+                                const descricao = document.createElement("p");
+
+                                descricao.textContent =
+                                    "Quarteirão: " +
+                                    (imovel.quarteirao || "-") +
+                                    " | Logradouro: " +
+                                    (imovel.logradouro || "-") +
+                                    " | Nº: " +
+                                    (imovel.numero || "-");
+
+                                
+                                item.appendChild(titulo);
+                                item.appendChild(descricao);
+
+                                // BOTÃO VER DETALHES DO IMÓVEL
+                                const btnDetalhes = document.createElement("button");
+
+                                btnDetalhes.type = "button";
+                                btnDetalhes.textContent = "VER DETALHES";
+
+                                btnDetalhes.style.backgroundColor = "#00B8D9";
+                                btnDetalhes.style.color = "#ffffff";
+                                btnDetalhes.style.border = "none";
+                                btnDetalhes.style.borderRadius = "6px";
+                                btnDetalhes.style.padding = "10px 16px";
+                                btnDetalhes.style.marginTop = "8px";
+                                btnDetalhes.style.cursor = "pointer";
+                                btnDetalhes.style.fontWeight = "bold";
+
+                                // ABRIR DETALHES DO IMÓVEL SELECIONADO
+                                btnDetalhes.addEventListener("click", () => {
+                                    mostrarDetalhesImovel(imovel);
+                                });
+
+                 item.appendChild(btnDetalhes);
+
+                // BOTÃO EDITAR IMÓVEL
+                const btnEditar = document.createElement("button");
+
+                btnEditar.type = "button";
+                btnEditar.textContent = "EDITAR IMÓVEL";
+
+                btnEditar.style.backgroundColor = "#2563eb";
+                btnEditar.style.color = "#ffffff";
+                btnEditar.style.border = "none";
+                btnEditar.style.borderRadius = "6px";
+                btnEditar.style.padding = "10px 16px";
+                btnEditar.style.marginTop = "8px";
+                btnEditar.style.marginLeft = "8px";
+                btnEditar.style.cursor = "pointer";
+                btnEditar.style.fontWeight = "bold";
+
+                // CARREGAR OS DADOS DO IMÓVEL SELECIONADO
+                btnEditar.addEventListener("click", () => {
+                    carregarImovelParaEdicao(imovel);
+                });
+
+                         item.appendChild(btnEditar);
+
+                // BOTÃO EXCLUIR IMÓVEL
+                const btnExcluir = document.createElement("button");
+
+                btnExcluir.type = "button";
+                btnExcluir.textContent = "EXCLUIR IMÓVEL";
+
+                btnExcluir.style.backgroundColor = "#dc2626";
+                btnExcluir.style.color = "#ffffff";
+                btnExcluir.style.border = "none";
+                btnExcluir.style.borderRadius = "6px";
+                btnExcluir.style.padding = "10px 16px";
+                btnExcluir.style.marginTop = "8px";
+                btnExcluir.style.marginLeft = "8px";
+                btnExcluir.style.cursor = "pointer";
+                btnExcluir.style.fontWeight = "bold";
+
+                // CONFIRMAÇÃO OBRIGATÓRIA
+                btnExcluir.addEventListener("click", async () => {
+
+                    const confirmou = window.confirm(
+                        "Deseja enviar o Imóvel " +
+                        imovel.numero_ordem +
+                        " para a lixeira?\n\n" +
+                        "O registro poderá ser restaurado posteriormente."
+                    );
+
+                    if (!confirmou) {
+                        return;
+                    }
+
+                    const formularioId = new URLSearchParams(
+                        window.location.search
+                    ).get("id");
+
+                    if (!formularioId) {
+                        alert("Formulário não identificado.");
+                        return;
+                    }
+
+                    btnExcluir.disabled = true;
+
+                    try {
+        // ETAPA 177.9.42 - PROTEGER EXCLUSAO DE IMOVEIS
+
+        const sessao = sessionStorage.getItem("pncd_usuario_logado");
+
+        if (!sessao) {
+            throw new Error("Acesso negado. Faça login para continuar.");
+        }
+
+        let usuarioLogado;
+
+        try {
+            usuarioLogado = JSON.parse(sessao);
+        } catch {
+            throw new Error("Sessão inválida. Faça login novamente.");
+        }
+
+        if (
+            !usuarioLogado ||
+            !usuarioLogado.id ||
+            usuarioLogado.perfil !== "agente"
+        ) {
+            throw new Error("Acesso negado. Usuário não autorizado.");
+        }
+
+        const formulario = await buscarFormulario(formularioId);
+
+        if (!formulario) {
+            throw new Error("Formulário não encontrado.");
+        }
+
+        if (
+            String(formulario.agente_id) !==
+            String(usuarioLogado.id)
+        ) {
+            throw new Error(
+                "Acesso negado. Este formulário não pertence ao agente conectado."
+            );
+        }
+
+        if (formulario.status !== "rascunho") {
+            throw new Error(
+                "Não é permitido excluir imóveis deste formulário."
+            );
+        }
+
+        // Confirmar que o imóvel pertence ao formulário.
+        const imoveisDoFormulario = await listarImoveis(formularioId);
+
+        const imovelEncontrado = imoveisDoFormulario.find(
+            item => String(item.id) === String(imovel.id)
+        );
+
+            if (!imovelEncontrado) {
+                throw new Error(
+                    "Acesso negado. Imóvel não encontrado neste formulário."
+                );
+            }
+
+                        await enviarImovelParaLixeira(
+                            imovel.id,
+                            formularioId
+                        );
+                        await atualizarListaImoveis(formularioId);
+
+                        const listaLixeira = document.getElementById(
+                            "lista-imoveis-lixeira"
+                        );
+
+                        if (listaLixeira && !listaLixeira.hidden) {
+                            await atualizarListaImoveisDaLixeira(
+                                formularioId
+                            );
+                        }
+
+                        alert(
+                            "Imóvel enviado para a lixeira com sucesso!"
+                        );
+
+                    } catch (erro) {
+                        console.error(
+                            "PNCD: erro ao enviar imóvel para a lixeira:",
+                            erro
+                        );
+
+                        alert(
+                            "Não foi possível enviar o imóvel para a lixeira."
+                        );
+
+                    } finally {
+                        btnExcluir.disabled = false;
+                    }
+                });
+
+                item.appendChild(btnExcluir);
+
+                            listaImoveis.appendChild(item);
+
+                            });
+                        }
+                    }
+                    // CAMPOS EDITÁVEIS
+                    
+            const camposEditaveis = [
+                [
+                    "Município",
+                    "municipio",
+                    formulario.municipio
+                ],
+                [
+                    "Código da Localidade",
+                    "codigo_localidade",
+                    formulario.codigo_localidade
+                ],
+                [
+                    "Localidade",
+                    "localidade",
+                    formulario.localidade
+                ],
+                [
+                    "Categoria",
+                    "categoria",
+                    formulario.categoria
+                ],
+
+              
+            [
+                "Número/Nome da Zona",
+                "zona",
+                formulario.zona
+            ],
+            [
+                "Tipo",
+                "tipo",
+                formulario.tipo
+            ],
+            [
+                "Zona concluída?",
+                "zona_concluida",
+                formulario.zona_concluida
+            ],
+
+            [
+                "Ciclo/Ano",
+                "ciclo_ano",
+                formulario.ciclo_ano
+            ]
+
+            ];
+
+
+                              
+            camposEditaveis.forEach(
+                ([rotulo, nome, valor]) => {
+
+                    const grupo =
+                        document.createElement("div");
+
+                    grupo.style.marginBottom = "18px";
+
+                    const label =
+                        document.createElement("label");
+
+                    label.textContent = rotulo;
+                    label.htmlFor = nome;
+                    label.style.display = "block";
+                    label.style.marginBottom = "6px";
+
+                    let input;
+
+                    if (nome === "zona_concluida") {
+
+                        input = document.createElement("select");
+
+                        const opcaoInicial =
+                            document.createElement("option");
+
+                        opcaoInicial.value = "";
+                        opcaoInicial.textContent = "Selecione";
+
+                        input.appendChild(opcaoInicial);
+
+                        ["SIM", "NÃO"].forEach((opcao) => {
+
+                            const item =
+                                document.createElement("option");
+
+                            item.value = opcao;
+                            item.textContent = opcao;
+
+                            input.appendChild(item);
+                        });
+
+                    } else {
+
+                        input = document.createElement("input");
+                        input.type = "text";
+
+                    }
+                    // ETAPA 177.9.60 - PROTEGER FORMULÁRIO FINALIZADO
+                    if (formulario.status !== "rascunho") {
+                        input.disabled = true;
+                    }
+
+                    input.id = nome;
+                    input.name = nome;
+                    input.value = valor || "";
+
+                    input.style.width = "100%";
+                    input.style.padding = "12px";
+                    input.style.boxSizing = "border-box";
+
+                    grupo.appendChild(label);
+                    grupo.appendChild(input);
+
+                    areaDados.appendChild(grupo);
+                }
+            );
+
+
+                    // CAMPOS SOMENTE PARA LEITURA
+                    const camposLeitura = [
+                        [
+                            "Data da atividade",
+                            formulario.data_atividade
+                        ],
+                        [
+                            "Atividade",
+                            formulario.atividade
+                        ],
+                        [
+                            "Status",
+                            formulario.status
+                        ]
+                    ];
+
+                    camposLeitura.forEach(
+                        ([rotulo, valor]) => {
+
+                            const linha =
+                                document.createElement("p");
+
+                            const titulo =
+                                document.createElement("strong");
+
+                            titulo.textContent = rotulo + ": ";
+
+                            const conteudo =
+                                document.createTextNode(
+                                    valor || "Não informado"
+                                );
+
+                            linha.appendChild(titulo);
+                            linha.appendChild(conteudo);
+
+                            areaDados.appendChild(linha);
+                        }
+                    );
+
+                    // BOTÃO SALVAR RASCUNHO
+                    const botaoSalvar =
+                        document.createElement("button");
+
+                    botaoSalvar.type = "button";
+                    botaoSalvar.textContent = "SALVAR RASCUNHO";
+
+                    botaoSalvar.style.width = "100%";
+                    botaoSalvar.style.padding = "14px";
+                    botaoSalvar.style.marginTop = "20px";
+                    botaoSalvar.style.cursor = "pointer";
+
+                    const mensagem =
+                        document.createElement("p");
+
+                    mensagem.setAttribute("role", "status");
+                    mensagem.style.marginTop = "12px";
+
+                    
+                    botaoSalvar.addEventListener(
+                        "click",
+                        async () => {
+
+                            // Cancela o salvamento automático agendado
+                            clearTimeout(temporizadorSalvamento);
+
+                            // Aguarda uma gravação automática em andamento
+                            while (salvamentoEmAndamento) {
+                                await new Promise(resolve =>
+                                    setTimeout(resolve, 50)
+                                );
+                            }
+
+                            botaoSalvar.disabled = true;
+                            mensagem.style.color = "#AFC7D8";
+                            mensagem.textContent =
+                                "Salvando rascunho...";
+
+                            try {
+
+                                const municipio =
+                                    document.getElementById(
+                                        "municipio"
+                                    ).value.trim();
+                                
+                                const codigo_localidade =
+                                    document.getElementById(
+                                   "codigo_localidade"
+                                     ).value.trim();
+    
+                                const localidade =
+                                    document.getElementById(
+                                        "localidade"
+                                    ).value.trim();
+
+                                const categoria =
+                                    document.getElementById(
+                                        "categoria"
+                                    ).value.trim();
+
+                                const zona =
+                                    document.getElementById(
+                                        "zona"
+                                    ).value.trim();
+
+                                const tipo =
+                                    document.getElementById(
+                                        "tipo"
+                                    ).value.trim();
+
+                                const zona_concluida =
+                                    document.getElementById(
+                                        "zona_concluida"
+                                    ).value;
+
+                                const ciclo_ano =
+                                    document.getElementById(
+                                        "ciclo_ano"
+                                    ).value.trim();
+
+                                
+
+                                await atualizarRascunho(
+                                    formulario.id,
+                                    {
+                                        municipio: municipio,
+                                        codigo_localidade: codigo_localidade,
+                                        localidade: localidade,
+                                        categoria: categoria,
+                                        zona: zona,
+                                        tipo: tipo,
+                                        zona_concluida: zona_concluida,
+                                        ciclo_ano: ciclo_ano
+                                    }
+                                );
+
+                              // Confere se houve nova digitação
+                               // enquanto o salvamento acontecia                                                                                  
+                               
+                              const houveNovaAlteracao =
+                                  document.getElementById(
+                                      "municipio"
+                                  ).value.trim() !== municipio ||
+
+                                  document.getElementById(
+                                      "codigo_localidade"
+                                  ).value.trim() !== codigo_localidade ||
+
+                                  document.getElementById(
+                                      "localidade"
+                                  ).value.trim() !== localidade ||
+
+                                  document.getElementById(
+                                      "categoria"
+                                  ).value.trim() !== categoria ||
+
+                                  document.getElementById(
+                                      "zona"
+                                  ).value.trim() !== zona ||
+
+                                  
+                                  document.getElementById(
+                                      "tipo"
+                                  ).value.trim() !== tipo ||
+                              
+                                  document.getElementById(
+                                      "zona_concluida"
+                                  ).value !== zona_concluida ||
+
+                                  document.getElementById(
+                                      "ciclo_ano"
+                                  ).value.trim() !== ciclo_ano;
+
+
+                                formularioModificado = houveNovaAlteracao;
+
+                                if (houveNovaAlteracao) {
+                                    agendarSalvamento();
+                                } else {
+                                    mensagem.style.color = "#00E5A0";
+                                    mensagem.textContent =
+                                        "Rascunho salvo com sucesso!";
+                                }
+
+                            } catch (erro) {
+
+                                formularioModificado = true;
+
+                                mensagem.style.color = "#FF7070";
+                                mensagem.textContent =
+                                    "Erro ao salvar: " +
+                                    erro.message;
+
+                                console.error(erro);
+
+                            } finally {
+
+                                botaoSalvar.disabled = false;
+
+                            }
+                        }
+                    );
+
+                    areaDados.appendChild(botaoSalvar);
+                    areaDados.appendChild(mensagem);
+                   // ETAPA 182.25 - BOTÃO CONCLUIR FAD 01
+
+                    const botaoConcluir = document.createElement("button");
+
+                    botaoConcluir.type = "button";
+                    botaoConcluir.id = "btn-concluir-fad01";
+                    botaoConcluir.textContent = "CONCLUIR FAD 01";
+
+                    botaoConcluir.style.width = "100%";
+                    botaoConcluir.style.padding = "14px";
+                    botaoConcluir.style.marginTop = "12px";
+                    botaoConcluir.style.backgroundColor = "#15803d";
+                    botaoConcluir.style.color = "#ffffff";
+                    botaoConcluir.style.border = "none";
+                    botaoConcluir.style.borderRadius = "8px";
+                    botaoConcluir.style.fontWeight = "bold";
+                    botaoConcluir.style.cursor = "pointer";
+
+                    // Desabilitado até implementarmos a conclusão segura
+                        // ETAPA 177.9.61 - HABILITAR CONCLUSÃO PARA RASCUNHOS
+                    botaoConcluir.disabled = formulario.status !== "rascunho";
+                    botaoConcluir.title =
+                    formulario.status === "rascunho"
+                    ? "Concluir o formulário FAD 01"
+                    : "Este formulário não permite conclusão.";
+
+
+                    areaDados.appendChild(botaoConcluir);
+                    // ETAPA 177.9.53 - CONCLUSAO SEGURA DO FAD 01
+
+                        let conclusaoEmAndamento = false;
+
+                        botaoConcluir.addEventListener("click", async function () {
+
+                            if (conclusaoEmAndamento) {
+                                return;
+                            }
+                            // ETAPA 177.9.59 - BLOQUEAR CONCLUSÃO DURANTE GRAVAÇÃO
+                        if (gravacaoImovelEmAndamento) {
+                            alert(
+                                "Aguarde! Existe um imóvel sendo salvo.\n\n" +
+                                "Após o salvamento, tente concluir o FAD 01 novamente."
+                            );
+                            return;
+                        }
+
+                            const confirmar = window.confirm(
+                                "Deseja realmente concluir este FAD 01?\n\n" +
+                                "Após a conclusão, o formulário ficará bloqueado " +
+                                "para alterações.\n\n" +
+                                "Somente uma reabertura autorizada permitirá correções."
+                            );
+
+                            if (!confirmar) {
+                                return;
+                            }
+
+                            conclusaoEmAndamento = true;
+                            botaoConcluir.disabled = true;
+
+                            bloquearCamposDuranteFinalizacao(true);
+
+                            try {
+
+                                await garantirSalvamentoAntesDeFinalizar();
+
+                                await finalizarFormularioPNCD(formulario.id);
+
+                                mensagem.style.color = "#00E5A0";
+                                mensagem.textContent =
+                                    "FAD 01 concluído com sucesso!";
+
+                                botaoConcluir.textContent = "FAD 01 CONCLUÍDO";
+
+                                alert(
+                                    "Formulário finalizado com sucesso!"
+                                );
+
+                                window.location.reload();
+
+                            } catch (erro) {
+
+                                console.error(
+                                    "Erro ao concluir FAD 01:",
+                                    erro
+                                );
+
+                                alert(
+                                    "Não foi possível concluir o formulário:\n" +
+                                    erro.message
+                                );
+
+                                bloquearCamposDuranteFinalizacao(false);
+
+                                conclusaoEmAndamento = false;
+                                botaoConcluir.disabled = false;
+                            }
+                        });
+
+                    // SALVAMENTO AUTOMÁTICO
+                    let temporizadorSalvamento = null;
+                    let salvamentoEmAndamento = false;
+                    let alteracoesPendentes = false;
+                    let formularioModificado = false;
+
+                    
+async function salvarAutomaticamente() {
+
+    if (salvamentoEmAndamento) {
+        alteracoesPendentes = true;
+        return;
+    }
+
+    salvamentoEmAndamento = true;
+
+    try {
+
+        do {
+
+            alteracoesPendentes = false;
+
+            const municipio =
+                document.getElementById(
+                    "municipio"
+                ).value.trim();
+
+            const codigo_localidade =
+                document.getElementById(
+                    "codigo_localidade"
+                ).value.trim();
+
+            const localidade =
+                document.getElementById(
+                    "localidade"
+                ).value.trim();
+
+            const categoria =
+                document.getElementById(
+                    "categoria"
+                ).value.trim();
+
+            const zona =
+                document.getElementById(
+                    "zona"
+                ).value.trim();
+
+            const tipo =
+                document.getElementById(
+                    "tipo"
+                ).value.trim();
+
+            const zona_concluida =
+                document.getElementById(
+                    "zona_concluida"
+                ).value;
+            
+            const ciclo_ano =
+                document.getElementById(
+                    "ciclo_ano"
+                ).value.trim();
+
+
+            mensagem.style.color = "#AFC7D8";
+            mensagem.textContent =
+                "Salvando automaticamente...";
+                    
+            
+            await atualizarRascunho(
+                formulario.id,
+                {
+                    municipio: municipio,
+                    codigo_localidade: codigo_localidade,
+                    localidade: localidade,
+                    categoria: categoria,
+                    zona: zona,
+                    tipo: tipo,
+                    zona_concluida: zona_concluida,
+                    ciclo_ano: ciclo_ano
+                }
+            );
+
+
+
+            // Verifica alterações durante a gravação
+            const municipioAtual =
+                document.getElementById(
+                    "municipio"
+                ).value.trim();
+
+            const codigoLocalidadeAtual =
+                document.getElementById(
+                    "codigo_localidade"
+                ).value.trim();
+
+            const localidadeAtual =
+                document.getElementById(
+                    "localidade"
+                ).value.trim();
+            
+            const categoriaAtual =
+                document.getElementById(
+                    "categoria"
+                ).value.trim();
+
+            const zonaAtual =
+                document.getElementById(
+                    "zona"
+                ).value.trim();
+
+            const cicloAnoAtual =
+                document.getElementById(
+                    "ciclo_ano"
+                ).value.trim();
+
+            const tipoAtual =
+                document.getElementById(
+                    "tipo"
+                ).value.trim();
+       
+             
+              if (
+                  municipioAtual !== municipio ||
+                  codigoLocalidadeAtual !== codigo_localidade ||
+                  localidadeAtual !== localidade ||
+                  categoriaAtual !== categoria ||
+                  zonaAtual !== zona ||
+                  tipoAtual !== tipo ||                
+                  document.getElementById("zona_concluida").value !== zona_concluida ||
+                  cicloAnoAtual !== ciclo_ano
+
+              ) {
+                  alteracoesPendentes = true;
+              }
+
+        } while (alteracoesPendentes);
+
+        // Somente após concluir todas as gravações
+        formularioModificado = false;
+
+        mensagem.style.color = "#00E5A0";
+        mensagem.textContent =
+            "Alterações salvas automaticamente!";
+
+    } catch (erro) {
+
+        // Mantém a proteção quando ocorre erro
+        formularioModificado = true;
+
+        mensagem.style.color = "#FF7070";
+        mensagem.textContent =
+            "Erro no salvamento automático: " +
+            erro.message;
+
+        console.error(erro);
+
+    } finally {
+
+        salvamentoEmAndamento = false;
+
+    }
+}
+                    function agendarSalvamento() {
+
+                        formularioModificado = true;
+
+                        clearTimeout(temporizadorSalvamento);
+
+                        // Informa que houve alteração
+                        mensagem.style.color = "#FFD166";
+                        mensagem.textContent =
+                            "Alterações ainda não salvas...";
+
+                        temporizadorSalvamento = setTimeout(
+                            salvarAutomaticamente,
+                            2000
+                        );
+                    }
+                        // ETAPA 177.9.47 - SALVAMENTO ANTES DA FINALIZAÇÃO
+                        async function garantirSalvamentoAntesDeFinalizar() {
+
+                            // Cancela o salvamento automático agendado
+                            clearTimeout(temporizadorSalvamento);
+                            temporizadorSalvamento = null;
+
+                            // Aguarda eventual gravação em andamento
+                            while (salvamentoEmAndamento) {
+                                await new Promise(resolve => setTimeout(resolve, 100));
+                            }
+
+                            // Grava os valores atuais dos campos
+                            await salvarAutomaticamente();
+
+                            // Confirma se a gravação terminou corretamente
+                            if (
+                                salvamentoEmAndamento ||
+                                formularioModificado ||
+                                alteracoesPendentes
+                            ) {
+                                throw new Error(
+                                    "Existem alterações pendentes ou ocorreu um erro ao salvar."
+                                );
+                            }
+
+                            return true;
+                        }
+                                // ETAPA 177.9.49 - BLOQUEIO TEMPORÁRIO DOS CAMPOS
+                                   
+                            function bloquearCamposDuranteFinalizacao(bloquear) {
+
+                                // Campos do cabeçalho
+                                const campos = [
+                                    "municipio",
+                                    "codigo_localidade",
+                                    "localidade",
+                                    "categoria",
+                                    "zona",
+                                    "tipo",
+                                    "zona_concluida",
+                                    "ciclo_ano"
+                                ];
+
+                                campos.forEach(function(id) {
+                                    const campo = document.getElementById(id);
+
+                                    if (campo) {
+                                        campo.disabled = bloquear;
+                                    }
+                                });
+
+                                // Campos do cadastro e edição de imóveis
+                                document.querySelectorAll('[id^="imovel-"]').forEach(function(campo) {
+                                    if (campo.matches("input, select, textarea")) {
+                                        campo.disabled = bloquear;
+                                    }
+                                });
+
+                                // Botões de cadastro e edição de imóveis
+                                const botoes = [
+                                "btn-adicionar-imovel",
+                                "btn-salvar-imovel",
+                                "btn-cancelar-edicao-imovel",
+                                "btn-abrir-lixeira"
+                                ];
+
+                                    botoes.forEach(function(id) {
+                                    const botao = document.getElementById(id);
+
+                                    if (botao) {
+                                        botao.disabled = bloquear;
+                                    }
+                                });
+                                // ETAPA 177.9.62.21
+                                // Bloquear ações de alteração em formulários finalizados
+
+                                document.querySelectorAll("button").forEach(function(botao) {
+                                    const texto = botao.textContent.trim().toUpperCase();
+
+                                    if (
+                                        texto === "SALVAR RASCUNHO" ||
+                                        texto === "EDITAR IMÓVEL" ||
+                                        texto === "EXCLUIR IMÓVEL"
+                                    ) {
+                                        botao.disabled = bloquear;
+                                    }
+                                });
+                            }
+                             // ETAPA 177.9.62.16
+                            // Bloquear automaticamente formulários finalizados
+
+                            if (formulario.status === "finalizado") {
+                                bloquearCamposDuranteFinalizacao(true);
+                                console.log(
+                                    "PNCD: FAD 01 finalizado. Edição bloqueada."
+                                );
+                            }
+
+
+                    document.getElementById(
+                        "municipio"
+                    ).addEventListener(
+                        "input",
+                        agendarSalvamento
+                    );
+
+                    document.getElementById(
+                        "codigo_localidade"
+                    ).addEventListener(
+                        "input",
+                        agendarSalvamento
+                    );
+
+                    document.getElementById(
+                        "localidade"
+                    ).addEventListener(
+                        "input",
+                        agendarSalvamento
+                    );
+
+                    document.getElementById(
+                        "categoria"
+                    ).addEventListener(
+                        "input",
+                        agendarSalvamento
+                    );
+
+                    document.getElementById(
+                        "zona"
+                    ).addEventListener(
+                        "input",
+                        agendarSalvamento
+                    );
+
+                    document.getElementById("tipo").addEventListener(
+                        "input",
+                        function () {
+                            formularioModificado = true;
+                            agendarSalvamento();
+                        }
+                    );
+
+                    document.getElementById("ciclo_ano").addEventListener(
+                        "input",
+                        function () {
+                            formularioModificado = true;
+                            agendarSalvamento();
+                        }
+                    );
+
+                    document.getElementById("zona_concluida").addEventListener(
+                        "change",
+                        function () {
+                            formularioModificado = true;
+                            agendarSalvamento();
+                        }
+                    );
+                    // AVISO DE ALTERAÇÕES NÃO SALVAS
+                    window.addEventListener(
+                        "beforeunload",
+                        function (event) {
+
+                            if (formularioModificado) {
+
+                                event.preventDefault();
+                                event.returnValue = "";
+
+                            }
+
+                        }
+                    );
+
+                    console.log(
+                        "PNCD Offline: formulário carregado para edição.",
+                        formulario.id
+                    );
+
+                } catch (erro) {
+
+                    areaDados.textContent =
+                        "Erro ao carregar formulário: " +
+                        erro.message;
+
+                    console.error(erro);
+                }
+            }
+        );
+    </script>
+</body>
+
+<script>
+      document.getElementById("btn-adicionar-imovel")
+          .addEventListener("click", function () {
+
+              const cadastro = document.getElementById(
+                  "cadastro-imovel"
+              );
+
+              if (cadastro.hidden) {
+                  cadastro.hidden = false;
+                  this.textContent = "− FECHAR CADASTRO";
+              } else {
+                  cadastro.hidden = true;
+                  this.textContent = "+ ADICIONAR IMÓVEL";
+              }
+          });
+
+        function atualizarResumoDepositos(imoveis) {
+
+            const tipos = ["a1", "a2", "b", "c", "d1", "d2", "e"];
+
+            let totalGeral = 0;
+
+            tipos.forEach((tipo) => {
+
+                let total = 0;
+
+                imoveis.forEach((imovel) => {
+
+                    const valor = imovel["deposito_" + tipo];
+
+                    const quantidade = Number(valor ?? 0);
+
+                    if (
+                        Number.isSafeInteger(quantidade) &&
+                        quantidade >= 0
+                    ) {
+                        total += quantidade;
+                    }
+
+                });
+
+                const campoTotal = document.getElementById(
+                    "total-deposito-" + tipo
+                );
+
+                if (campoTotal) {
+                    campoTotal.value = total;
+                }
+
+                totalGeral += total;
+
+            });
+
+            const campoTotalGeral = document.getElementById(
+                "total-geral-depositos"
+            );
+
+            if (campoTotalGeral) {
+                campoTotalGeral.value = totalGeral;
+            }
+
+        }
+
+        function atualizarResumoInspecaoColeta(imoveis) {
+
+            let totalInspecionados = 0;
+            let totalTubitos = 0;
+
+            imoveis.forEach((imovel) => {
+
+                // Quantidade de imóveis inspecionados (LI)
+                const inspecionados = Number(
+                    imovel.inspecionados_li ?? 0
+                );
+
+                if (
+                    Number.isSafeInteger(inspecionados) &&
+                    inspecionados >= 0
+                ) {
+                    totalInspecionados += inspecionados;
+                }
+
+                // Quantidade de tubitos coletados
+                const tubitos = Number(
+                    imovel.quantidade_tubitos ?? 0
+                );
+
+                if (
+                    Number.isSafeInteger(tubitos) &&
+                    tubitos >= 0
+                ) {
+                    totalTubitos += tubitos;
+                }
+
+            });
+
+          // Exibir total de Inspecionados (LI)
+          const campoInspecionados = document.getElementById(
+              "total-inspecionados-li"
+          );
+
+          if (campoInspecionados) {
+              campoInspecionados.value = totalInspecionados;
+          }
+
+          // Exibir total de Tubitos
+          const campoTubitos = document.getElementById(
+              "total-quantidade-tubitos"
+          );
+
+          if (campoTubitos) {
+              campoTubitos.value = totalTubitos;
+          }
+
+      }
+
+        function atualizarResumoTratamento(imoveis) {
+
+            // Campos de tratamento e seus respectivos totais
+            const camposTratamento = [
+                ["depositos_eliminados", "total-depositos-eliminados"],
+                ["imoveis_tratados", "total-imoveis-tratados"],
+                ["l1", "total-l1"],
+                ["carga_larvicida", "total-carga-larvicida"],
+                ["quantidade_tratados", "total-quantidade-tratados"],
+                ["adulticida", "total-adulticida"],
+                ["cargas_adulticida", "total-cargas-adulticida"],
+                ["perifocal", "total-perifocal"],
+                ["cargas_perifocal", "total-cargas-perifocal"]
+            ];
+
+            camposTratamento.forEach(([propriedade, idCampo]) => {
+
+                let total = 0;
+
+                imoveis.forEach((imovel) => {
+
+                    const valor = Number(imovel[propriedade] ?? 0);
+
+                    // Somar somente inteiros não negativos
+                    if (
+                        Number.isSafeInteger(valor) &&
+                        valor >= 0 &&
+                        Number.isSafeInteger(total + valor)
+                    ) {
+                        total += valor;
+                    }
+
+                });
+
+                // Exibir o total no formulário
+                const campoTotal = document.getElementById(idCampo);
+
+                if (campoTotal) {
+                    campoTotal.value = total;
+                }
+
+            });
+        }
+
+
+        function mostrarDetalhesImovel(imovel) {
+
+            const painel = document.getElementById("detalhes-imovel");
+            const conteudo = document.getElementById(
+                "conteudo-detalhes-imovel"
+            );
+
+            if (!painel || !conteudo) {
+                return;
+            }
+
+            // Organizar os campos por seção
+            const secoes = [
+                {
+                    titulo: "Identificação do Imóvel",
+                    campos: [
+                        ["Quarteirão", "quarteirao"],
+                        ["Sequência", "sequencia"],
+                        ["Lado", "lado"],
+                        ["Logradouro", "logradouro"],
+                        ["Nº Imóvel", "numero"],
+                        ["Seq. Imóvel", "sequencia_imovel"],
+                        ["Complemento", "complemento"],
+                        ["Tipo Imóvel", "tipo_imovel"]
+                    ]
+                },
+                {
+                    titulo: "Visita e Pendência",
+                    campos: [
+                        ["Hora da Visita", "hora_visita"],
+                        ["Tipo de Visita", "tipo_visita"],
+                        ["Pendência", "pendencia"]
+                    ]
+                },
+                {
+                    titulo: "Depósitos",
+                    campos: [
+                        ["A1", "deposito_a1"],
+                        ["A2", "deposito_a2"],
+                        ["B", "deposito_b"],
+                        ["C", "deposito_c"],
+                        ["D1", "deposito_d1"],
+                        ["D2", "deposito_d2"],
+                        ["E", "deposito_e"]
+                    ]
+                },
+                {
+                    titulo: "Inspeção e Coleta",
+                    campos: [
+                        ["Inspecionados (LI)", "inspecionados_li"],
+                        ["Nº da Amostra", "numero_amostra"],
+                        ["Quantidade de Tubitos", "quantidade_tubitos"],
+                        ["Coleta Inicial", "coleta_inicial"],
+                        ["Coleta Final", "coleta_final"]
+                    ]
+                },
+                {
+                    titulo: "Tratamento",
+                    campos: [
+                        ["Depósitos Eliminados", "depositos_eliminados"],
+                        ["Imóveis Tratados", "imoveis_tratados"],
+                        ["L1", "l1"],
+                        ["Carga Larvicida", "carga_larvicida"],
+                        ["Depósitos Tratados", "quantidade_tratados"],
+                        ["Adulticida", "adulticida"],
+                        ["Cargas Adulticida", "cargas_adulticida"],
+                        ["Perifocal", "perifocal"],
+                        ["Cargas Perifocal", "cargas_perifocal"]
+                    ]
+                }
+            ];
+
+    // Limpar somente a visualização anterior
+            conteudo.replaceChildren();
+
+            secoes.forEach((secao) => {
+
+                const bloco = document.createElement("section");
+                bloco.style.marginBottom = "20px";
+
+                const titulo = document.createElement("h4");
+                titulo.textContent = secao.titulo;
+                titulo.style.color = "#00B8D9";
+                titulo.style.marginBottom = "10px";
+
+                bloco.appendChild(titulo);
+
+                const grade = document.createElement("div");
+                grade.className = "grade-identificacao-imovel";
+
+                secao.campos.forEach(([rotulo, propriedade]) => {
+
+                    const campo = document.createElement("div");
+                    campo.className = "campo-identificacao";
+
+                    const label = document.createElement("strong");
+                    label.textContent = rotulo + ":";
+
+                    const valor = document.createElement("p");
+
+                    const dado = imovel[propriedade];
+
+                    valor.textContent =
+                        dado === undefined ||
+                        dado === null ||
+                        dado === ""
+                            ? "-"
+                            : String(dado);
+
+                    valor.style.marginTop = "5px";
+                    valor.style.overflowWrap = "anywhere";
+
+                    campo.appendChild(label);
+                    campo.appendChild(valor);
+
+                    grade.appendChild(campo);
+                });
+
+                bloco.appendChild(grade);
+                conteudo.appendChild(bloco);
+            });
+
+            // Mostrar o painel de detalhes
+            painel.hidden = false;
+
+            // Levar o usuário até os detalhes
+            painel.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+    // ATIVAR BOTÃO FECHAR DETALHES
+    document.getElementById("btn-fechar-detalhes")
+        ?.addEventListener("click", () => {
+
+            const painel = document.getElementById(
+                "detalhes-imovel"
+            );
+
+            if (painel) {
+                painel.hidden = true;
+            }
+
+        });
+
+
+        async function atualizarListaImoveis(formularioId) {
+
+          const listaImoveis = document.getElementById("lista-imoveis");
+            if (!listaImoveis) {
+                return;
+            }
+            const imoveis = await listarImoveis(formularioId);
+            // Atualizar automaticamente o resumo dos depósitos
+            atualizarResumoDepositos(imoveis);
+            atualizarResumoInspecaoColeta(imoveis);
+            atualizarResumoTratamento(imoveis);
+
+            listaImoveis.replaceChildren();
+
+            if (imoveis.length === 0) {
+                const mensagem = document.createElement("p");
+
+                mensagem.textContent =
+                    "Nenhum imóvel cadastrado neste formulário.";
+
+                listaImoveis.appendChild(mensagem);
+                return;
+            }
+
+            imoveis.forEach((imovel, indice) => {
+                const item = document.createElement("div");
+
+                item.style.padding = "12px";
+                item.style.marginBottom = "10px";
+                item.style.border = "1px solid #00B8D9";
+                item.style.borderRadius = "8px";
+
+                const titulo = document.createElement("strong");
+                
+                titulo.textContent = "Imóvel " + (
+                    imovel.numero_ordem ?? (indice + 1)
+                );
+
+
+                const descricao = document.createElement("p");
+
+                descricao.textContent =
+                    "Quarteirão: " + (imovel.quarteirao || "-") +
+                    " | Logradouro: " + (imovel.logradouro || "-") +
+                    " | Nº: " + (imovel.numero || "-");
+
+                
+                item.appendChild(titulo);
+                item.appendChild(descricao);
+
+                // BOTÃO VER DETALHES DO IMÓVEL
+                const btnDetalhes = document.createElement("button");
+
+                btnDetalhes.type = "button";
+                btnDetalhes.textContent = "VER DETALHES";
+
+                btnDetalhes.style.backgroundColor = "#00B8D9";
+                btnDetalhes.style.color = "#ffffff";
+                btnDetalhes.style.border = "none";
+                btnDetalhes.style.borderRadius = "6px";
+                btnDetalhes.style.padding = "10px 16px";
+                btnDetalhes.style.marginTop = "8px";
+                btnDetalhes.style.cursor = "pointer";
+                btnDetalhes.style.fontWeight = "bold";
+                
+                // ABRIR OS DETALHES DO IMÓVEL SELECIONADO
+                btnDetalhes.addEventListener("click", () => {
+                    mostrarDetalhesImovel(imovel);
+                });
+
+
+                item.appendChild(btnDetalhes);
+
+                // BOTÃO EDITAR IMÓVEL
+                const btnEditar = document.createElement("button");
+
+                btnEditar.type = "button";
+                btnEditar.textContent = "EDITAR IMÓVEL";
+
+                btnEditar.style.backgroundColor = "#2563eb";
+                btnEditar.style.color = "#ffffff";
+                btnEditar.style.border = "none";
+                btnEditar.style.borderRadius = "6px";
+                btnEditar.style.padding = "10px 16px";
+                btnEditar.style.marginTop = "8px";
+                btnEditar.style.marginLeft = "8px";
+                btnEditar.style.cursor = "pointer";
+                btnEditar.style.fontWeight = "bold";
+
+                // CARREGAR O IMÓVEL SELECIONADO PARA EDIÇÃO
+                btnEditar.addEventListener("click", () => {
+                    carregarImovelParaEdicao(imovel);
+                });
+
+                item.appendChild(btnEditar);
+
+                // BOTÃO EXCLUIR IMÓVEL
+                const btnExcluir = document.createElement("button");
+
+                btnExcluir.type = "button";
+                btnExcluir.textContent = "EXCLUIR IMÓVEL";
+
+                btnExcluir.style.backgroundColor = "#dc2626";
+                btnExcluir.style.color = "#ffffff";
+                btnExcluir.style.border = "none";
+                btnExcluir.style.borderRadius = "6px";
+                btnExcluir.style.padding = "10px 16px";
+                btnExcluir.style.marginTop = "8px";
+                btnExcluir.style.marginLeft = "8px";
+                btnExcluir.style.cursor = "pointer";
+                btnExcluir.style.fontWeight = "bold";
+
+                // CONFIRMAÇÃO OBRIGATÓRIA
+                btnExcluir.addEventListener("click", async () => {
+
+                    const confirmou = window.confirm(
+                        "Deseja enviar o Imóvel " +
+                        imovel.numero_ordem +
+                        " para a lixeira?\n\n" +
+                        "O registro poderá ser restaurado posteriormente."
+                    );
+
+                    if (!confirmou) {
+                        return;
+                    }
+
+                    const formularioId = new URLSearchParams(
+                        window.location.search
+                    ).get("id");
+
+                    if (!formularioId) {
+                        alert("Formulário não identificado.");
+                        return;
+                    }
+                    btnExcluir.disabled = true;
+            try {
+    // ETAPA 177.9.42 - PROTEGER EXCLUSAO DE IMOVEIS
+    const sessao = sessionStorage.getItem("pncd_usuario_logado");
+
+    if (!sessao) {
+        throw new Error("Acesso negado. Faça login para continuar.");
+    }
+
+    let usuarioLogado;
+
+    try {
+        usuarioLogado = JSON.parse(sessao);
+    } catch {
+        throw new Error("Sessão inválida. Faça login novamente.");
+    }
+
+    if (
+        !usuarioLogado ||
+        !usuarioLogado.id ||
+        usuarioLogado.perfil !== "agente"
+    ) {
+        throw new Error("Acesso negado. Usuário não autorizado.");
+    }
+
+    const formulario = await buscarFormulario(formularioId);
+
+    if (!formulario) {
+        throw new Error("Formulário não encontrado.");
+    }
+
+    if (
+        String(formulario.agente_id) !==
+        String(usuarioLogado.id)
+    ) {
+        throw new Error(
+            "Acesso negado. Este formulário não pertence ao agente conectado."
+        );
+    }
+
+    if (formulario.status !== "rascunho") {
+        throw new Error(
+            "Não é permitido excluir imóveis deste formulário."
+        );
+    }
+
+    // Confirmar que o imóvel pertence ao formulário.
+    const imoveisDoFormulario = await listarImoveis(formularioId);
+
+    const imovelEncontrado = imoveisDoFormulario.find(
+        item => String(item.id) === String(imovel.id)
+    );
+
+        if (!imovelEncontrado) {
+            throw new Error(
+                "Acesso negado. Imóvel não encontrado neste formulário."
+            );
+        }
+
+        await enviarImovelParaLixeira(
+            imovel.id,
+            formularioId
+        );
+
+                        await atualizarListaImoveis(formularioId);
+
+                        const listaLixeira = document.getElementById(
+                            "lista-imoveis-lixeira"
+                        );
+
+                        if (listaLixeira && !listaLixeira.hidden) {
+                            await atualizarListaImoveisDaLixeira(
+                                formularioId
+                            );
+                        }
+
+                        alert("Imóvel enviado para a lixeira com sucesso!");
+
+                    } catch (erro) {
+                        console.error(
+                            "PNCD: erro ao enviar imóvel para a lixeira:",
+                            erro
+                        );
+
+                        alert(
+                            "Não foi possível enviar o imóvel para a lixeira."
+                        );
+
+                    } finally {
+                        btnExcluir.disabled = false;
+                    }
+                });
+
+                item.appendChild(btnExcluir);
+
+                listaImoveis.appendChild(item);
+
+            });
+        }
+        
+async function atribuirNumeracaoInicialImoveis(formularioId) {
+
+    const imoveis = await listarImoveis(formularioId);
+
+    // Proteção para a migração inicial
+    if (imoveis.length !== 14) {
+        throw new Error(
+            "Numeração interrompida: quantidade diferente de 14 imóveis."
+        );
+    }
+
+    // Não permitir migração parcial ou repetida
+    const jaNumerados = imoveis.some((imovel) =>
+        imovel.numero_ordem !== undefined &&
+        imovel.numero_ordem !== null
+    );
+
+    if (jaNumerados) {
+        throw new Error(
+            "Numeração interrompida: existem imóveis já numerados."
+        );
+    }
+
+    // Preparar os números sem modificar o IndexedDB
+            const imoveisNumerados = imoveis.map((imovel, indice) => ({
+                ...imovel,
+                numero_ordem: indice + 1
+            }));
+
+            console.table(
+                imoveisNumerados.map((imovel) => ({
+                    numero_ordem: imovel.numero_ordem,
+                    logradouro: imovel.logradouro,
+                    numero: imovel.numero
+                }))
+            );
+
+            return imoveisNumerados;
+        }
+
+async function gravarNumeracaoInicialImoveis(formularioId) {
+
+    // Preparar os 14 imóveis numerados
+    const imoveisNumerados =
+        await atribuirNumeracaoInicialImoveis(formularioId);
+
+    // Confirmar quantidade e sequência
+    if (
+        imoveisNumerados.length !== 14 ||
+        !imoveisNumerados.every(
+            (imovel, indice) =>
+                imovel.numero_ordem === indice + 1 &&
+                imovel.formulario_id === formularioId
+        )
+    ) {
+        throw new Error(
+            "Gravação interrompida: numeração inválida."
+        );
+    }
+
+    // Confirmar autorização antes de modificar o banco
+    const confirmado = confirm(
+        "ATENÇÃO: esta operação gravará números fixos " +
+        "de 1 a 14 nos imóveis deste formulário.\n\n" +
+        "Confirme somente após verificar o backup.\n\n" +
+        "Deseja continuar?"
+    );
+
+    if (!confirmado) {
+        console.log("Gravação cancelada pelo usuário.");
+        return;
+    }
+
+    const banco = await abrirBanco();
+
+    try {
+        await new Promise((resolve, reject) => {
+
+            // Uma única transação para todos os registros
+            const transacao = banco.transaction(
+                "imoveis",
+                "readwrite"
+            );
+
+            const tabela = transacao.objectStore("imoveis");
+
+            // Verificar novamente os registros dentro da transação
+            const requisicao = tabela.index(
+                "formulario_id"
+            ).getAll(formularioId);
+
+            requisicao.onsuccess = () => {
+
+                const atuais = requisicao.result;
+
+                const idsEsperados = new Set(
+                    imoveisNumerados.map((imovel) => imovel.id)
+                );
+
+                const validos =
+                    atuais.length === 14 &&
+                    atuais.every((imovel) =>
+                        idsEsperados.has(imovel.id) &&
+                        imovel.numero_ordem == null
+                    );
+
+                if (!validos) {
+                    transacao.abort();
+                    return;
+                }
+
+                // Preservar os campos atuais de cada imóvel
+                const ordemPorId = new Map(
+                    imoveisNumerados.map((imovel) => [
+                        imovel.id,
+                        imovel.numero_ordem
+                    ])
+                );
+
+                atuais.forEach((imovel) => {
+
+                    tabela.put({
+                        ...imovel,
+                        numero_ordem: ordemPorId.get(imovel.id)
+                    });
+
+                });
+            };
+
+            requisicao.onerror = () => {
+                transacao.abort();
+            };
+
+            transacao.oncomplete = () => resolve();
+
+            transacao.onabort = () => reject(
+                transacao.error ||
+                new Error("Transação cancelada.")
+            );
+
+            transacao.onerror = () => {
+                // O erro será tratado pelo evento onabort
+            };
+        });
+
+        console.log(
+            "Numeração inicial gravada com sucesso."
+        );
+
+                const conferir = await listarImoveis(formularioId);
+
+                console.table(
+                    conferir.map((imovel) => ({
+                        numero_ordem: imovel.numero_ordem,
+                        logradouro: imovel.logradouro,
+                        numero: imovel.numero
+                    }))
+                );
+
+            } finally {
+                banco.close();
+            }
+        }
+
+        async function obterProximoNumeroOrdem(formularioId) {
+
+            const imoveis = await listarImoveis(formularioId);
+
+            let maiorNumero = 0;
+
+            imoveis.forEach((imovel) => {
+
+                const numero = Number(imovel.numero_ordem);
+
+                if (
+                    Number.isSafeInteger(numero) &&
+                    numero > maiorNumero
+                ) {
+                    maiorNumero = numero;
+                }
+
+            });
+
+    return maiorNumero + 1;
+}  
+        // CONTROLE DE EDIÇÃO DE IMÓVEIS
+        // null = cadastro normal
+        // ID preenchido = imóvel selecionado para edição
+        let imovelEmEdicaoId = null;
+
+    
+        // CARREGAR DADOS DO IMÓVEL PARA EDIÇÃO
+        function carregarImovelParaEdicao(imovel) {
+
+            if (!imovel || !imovel.id) {
+                console.error("Imóvel inválido para edição.");
+                return;
+            }
+
+            // Relacionar propriedades aos campos HTML
+            const campos = {
+                quarteirao: "imovel-quarteirao",
+                sequencia: "imovel-sequencia",
+                lado: "imovel-lado",
+                logradouro: "imovel-logradouro",
+                numero: "imovel-numero",
+                sequencia_imovel: "imovel-sequencia-imovel",
+                complemento: "imovel-complemento",
+                tipo_imovel: "imovel-tipo",
+
+                hora_visita: "imovel-hora",
+                tipo_visita: "imovel-visita",
+                pendencia: "imovel-pendencia",
+
+                deposito_a1: "imovel-deposito-a1",
+                deposito_a2: "imovel-deposito-a2",
+                deposito_b: "imovel-deposito-b",
+                deposito_c: "imovel-deposito-c",
+                deposito_d1: "imovel-deposito-d1",
+                deposito_d2: "imovel-deposito-d2",
+                deposito_e: "imovel-deposito-e",
+
+                inspecionados_li: "imovel-inspecionados-li",
+                numero_amostra: "imovel-numero-amostra",
+                quantidade_tubitos: "imovel-quantidade-tubitos",
+                coleta_inicial: "imovel-coleta-inicial",
+                coleta_final: "imovel-coleta-final",
+
+                depositos_eliminados: "imovel-depositos-eliminados",
+                imoveis_tratados: "imovel-imoveis-tratados",
+                l1: "imovel-l1",
+                carga_larvicida: "imovel-carga-larvicida",
+                quantidade_tratados: "imovel-quantidade-tratados",
+                adulticida: "imovel-adulticida",
+                cargas_adulticida: "imovel-cargas-adulticida",
+                perifocal: "imovel-perifocal",
+                cargas_perifocal: "imovel-cargas-perifocal"
+            };
+
+            // Verificar todos os campos antes de preencher
+            for (const idCampo of Object.values(campos)) {
+                if (!document.getElementById(idCampo)) {
+                    console.error(
+                        "Campo não encontrado:", idCampo
+                    );
+                    return;
+                }
+            }
+
+            // Preencher os campos com os dados existentes
+            for (const [propriedade, idCampo] of Object.entries(campos)) {
+                const elemento = document.getElementById(idCampo);
+                elemento.value = imovel[propriedade] ?? "";
+            }
+
+            // Identificar o imóvel selecionado
+            imovelEmEdicaoId = imovel.id;
+
+            // ABRIR O FORMULÁRIO AO EDITAR UM IMÓVEL
+            const cadastroImovel = document.getElementById(
+                "cadastro-imovel"
+            );
+
+            if (cadastroImovel) {
+                cadastroImovel.hidden = false;
+            }
+
+
+            // Atualizar os botões
+            const botaoSalvar = document.getElementById(
+                "btn-salvar-imovel"
+            );
+
+            const botaoCancelar = document.getElementById(
+                "btn-cancelar-edicao-imovel"
+            );
+
+            if (botaoSalvar) {
+                botaoSalvar.textContent = "SALVAR ALTERAÇÕES";
+            }
+
+            if (botaoCancelar) {
+                botaoCancelar.hidden = false;
+            }
+
+            // Levar o agente até o formulário
+            document.getElementById("imovel-quarteirao")
+                ?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            console.log(
+                "PNCD Offline: edição preparada para o imóvel",
+                imovel.numero_ordem
+            );
+        }
+    
+        // CANCELAR EDIÇÃO DE IMÓVEL
+        function cancelarEdicaoImovel() {
+
+            // Sair do modo de edição
+            imovelEmEdicaoId = null;
+
+            // Restaurar o botão principal
+            const botaoSalvar = document.getElementById(
+                "btn-salvar-imovel"
+            );
+
+            if (botaoSalvar) {
+                botaoSalvar.textContent = "SALVAR IMÓVEL";
+            }
+
+            // Ocultar o botão cancelar
+            const botaoCancelar = document.getElementById(
+                "btn-cancelar-edicao-imovel"
+            );
+
+            if (botaoCancelar) {
+                botaoCancelar.hidden = true;
+            }
+
+            // Limpar os campos do formulário
+            const campos = document.querySelectorAll(
+                '[id^="imovel-"]'
+            );
+
+            campos.forEach(campo => {
+                if (
+                    campo.matches("input, select, textarea") &&
+                    !campo.disabled
+                ) {
+                    campo.value = "";
+                }
+            });
+
+            // Ocultar mensagem anterior de sucesso
+            const mensagem = document.getElementById(
+                "mensagem-imovel-salvo"
+            );
+
+            if (mensagem) {
+                mensagem.hidden = true;
+            }
+
+            console.log(
+                "PNCD Offline: edição cancelada."
+            );
+        }
+
+        // ATIVAR BOTÃO CANCELAR EDIÇÃO
+        document.getElementById(
+            "btn-cancelar-edicao-imovel"
+        )?.addEventListener(
+            "click",
+            cancelarEdicaoImovel
+        );
+
+        // SALVAR ALTERAÇÕES DE UM IMÓVEL EXISTENTE
+        async function salvarEdicaoImovel() {
+            if (imovelEmEdicaoId === null) {
+                throw new Error("Nenhum imóvel selecionado para edição.");
+            }
+            // Campos do formulário
+            const campos = {
+                quarteirao: "imovel-quarteirao",
+                sequencia: "imovel-sequencia",
+                lado: "imovel-lado",
+                logradouro: "imovel-logradouro",
+                numero: "imovel-numero",
+                sequencia_imovel: "imovel-sequencia-imovel",
+                complemento: "imovel-complemento",
+                tipo_imovel: "imovel-tipo",
+                hora_visita: "imovel-hora",
+                tipo_visita: "imovel-visita",
+                pendencia: "imovel-pendencia",
+                deposito_a1: "imovel-deposito-a1",
+                deposito_a2: "imovel-deposito-a2",
+                deposito_b: "imovel-deposito-b",
+                deposito_c: "imovel-deposito-c",
+                deposito_d1: "imovel-deposito-d1",
+                deposito_d2: "imovel-deposito-d2",
+                deposito_e: "imovel-deposito-e",
+                inspecionados_li: "imovel-inspecionados-li",
+                numero_amostra: "imovel-numero-amostra",
+                quantidade_tubitos: "imovel-quantidade-tubitos",
+                coleta_inicial: "imovel-coleta-inicial",
+                coleta_final: "imovel-coleta-final",
+                depositos_eliminados: "imovel-depositos-eliminados",
+                imoveis_tratados: "imovel-imoveis-tratados",
+                l1: "imovel-l1",
+                carga_larvicida: "imovel-carga-larvicida",
+                quantidade_tratados: "imovel-quantidade-tratados",
+                adulticida: "imovel-adulticida",
+                cargas_adulticida: "imovel-cargas-adulticida",
+                perifocal: "imovel-perifocal",
+                cargas_perifocal: "imovel-cargas-perifocal"
+            };
+           
+            const formularioId = new URLSearchParams(
+                window.location.search
+            ).get("id");
+
+            if (!formularioId) {
+                throw new Error("Nenhum formulário selecionado para edição.");
+            }
+            // ETAPA 177.9.13 - PROTEGER EDICAO DE IMOVEIS
+
+                const sessao = sessionStorage.getItem(
+                    "pncd_usuario_logado"
+                );
+
+                if (!sessao) {
+                    throw new Error(
+                        "Acesso negado. Faça login para continuar."
+                    );
+                }
+
+                let usuarioLogado;
+
+                try {
+                    usuarioLogado = JSON.parse(sessao);
+                } catch {
+                    throw new Error(
+                        "Sessão inválida. Faça login novamente."
+                    );
+                }
+
+                if (
+                    !usuarioLogado ||
+                    !usuarioLogado.id ||
+                    usuarioLogado.perfil !== "agente"
+                ) {
+                    throw new Error(
+                        "Acesso negado. Usuário não autorizado."
+                    );
+                }
+
+                // Verificar se o formulario pertence ao agente
+                const formulario = await buscarFormulario(formularioId);
+
+                if (!formulario) {
+                    throw new Error("Formulário não encontrado.");
+                }
+
+                if (
+                    String(formulario.agente_id) !==
+                    String(usuarioLogado.id)
+                ) {
+                    throw new Error(
+                        "Acesso negado. Este formulário não pertence ao agente conectado."
+                    );
+                }
+
+                if (formulario.status !== "rascunho") {
+                    throw new Error(
+                        "Não é permitido editar imóveis neste formulário."
+                    );
+                }
+
+                // Verificar se o imovel pertence ao formulario
+                const imoveisDoFormulario = await listarImoveis(formularioId);
+
+                const imovelEncontrado = imoveisDoFormulario.find(
+                    imovel => String(imovel.id) === String(imovelEmEdicaoId)
+                );
+
+                if (!imovelEncontrado) {
+                    throw new Error(
+                        "Acesso negado. O imóvel não pertence a este formulário ou está excluído."
+                    );
+                }
+
+            const dadosAtualizados = {
+                id: imovelEmEdicaoId,
+                formulario_id: formularioId
+            };
+
+            for (const [propriedade, idCampo] of Object.entries(campos)) {
+                const elemento = document.getElementById(idCampo);
+
+                if (!elemento) {
+                    throw new Error("Campo não encontrado: " + idCampo);
+                }
+
+                
+                    dadosAtualizados[propriedade] = elemento.value.trim();
+
+            }
+
+            // Validar o logradouro
+            if (!dadosAtualizados.logradouro.trim()) {
+                alert("Informe o nome do logradouro.");
+                return false;
+            }
+
+            // Atualizar o registro existente no IndexedDB
+            await atualizarImovel(dadosAtualizados);
+
+            console.log(
+                "PNCD Offline: imóvel atualizado com sucesso.",
+                imovelEmEdicaoId
+            );
+
+            return true;
+        }
+    
+async function atualizarListaImoveisDaLixeira(formularioId) {
+
+    const lista = document.getElementById(
+        "lista-imoveis-lixeira"
+    );
+
+    if (!lista) {
+        console.error("PNCD: área da lixeira não encontrada.");
+        return;
+    }
+
+    const imoveisExcluidos = await listarImoveisDaLixeira(
+        formularioId
+    );
+
+    lista.replaceChildren();
+
+    const quantidade = document.createElement("p");
+
+    quantidade.textContent =
+        "Imóveis na lixeira: " + imoveisExcluidos.length;
+
+    lista.appendChild(quantidade);
+
+    if (imoveisExcluidos.length === 0) {
+
+        const mensagem = document.createElement("p");
+
+        mensagem.textContent =
+            "A lixeira está vazia.";
+
+        lista.appendChild(mensagem);
+
+        return;
+    }
+
+    imoveisExcluidos.forEach((imovel, indice) => {
+
+        const item = document.createElement("div");
+
+        item.style.padding = "12px";
+        item.style.marginBottom = "10px";
+        item.style.border = "1px solid #cccccc";
+        item.style.borderRadius = "8px";
+
+        const titulo = document.createElement("strong");
+
+        titulo.textContent = "Imóvel " + (
+            imovel.numero_ordem ?? (indice + 1)
+        );
+
+        const descricao = document.createElement("p");
+
+        descricao.textContent =
+            "Logradouro: " + (imovel.logradouro || "-") +
+            " | Nº: " + (imovel.numero || "-");
+
+        item.appendChild(titulo);
+        item.appendChild(descricao);
+
+        // BOTÃO RESTAURAR IMÓVEL
+        const btnRestaurar = document.createElement("button");
+
+        btnRestaurar.type = "button";
+        btnRestaurar.textContent = "RESTAURAR IMÓVEL";
+
+        btnRestaurar.style.backgroundColor = "#16a34a";
+        btnRestaurar.style.color = "#ffffff";
+        btnRestaurar.style.border = "none";
+        btnRestaurar.style.borderRadius = "6px";
+        btnRestaurar.style.padding = "10px 16px";
+        btnRestaurar.style.marginTop = "8px";
+        btnRestaurar.style.cursor = "pointer";
+        btnRestaurar.style.fontWeight = "bold";
+
+        // CONFIRMAR A RESTAURAÇÃO
+        btnRestaurar.addEventListener("click", async () => {
+
+            const confirmou = window.confirm(
+                "Deseja restaurar o Imóvel " +
+                imovel.numero_ordem +
+                "?\n\n" +
+                "Ele voltará para a lista principal."
+            );
+
+            if (!confirmou) {
+                return;
+            }
+
+            const formularioId = new URLSearchParams(
+                window.location.search
+            ).get("id");
+
+            if (!formularioId) {
+                alert("Formulário não identificado.");
+                return;
+            }
+
+            btnRestaurar.disabled = true;
+
+            
+try {
+    // ETAPA 177.9.63 - PROTEGER RESTAURACAO DE IMOVEIS
+
+    // 1. Verificar a sessão do usuário.
+    const sessao = sessionStorage.getItem("pncd_usuario_logado");
+
+    if (!sessao) {
+        throw new Error("Acesso negado. Faça login para continuar.");
+    }
+
+    let usuarioLogado;
+
+    try {
+        usuarioLogado = JSON.parse(sessao);
+    } catch {
+        throw new Error("Sessão inválida. Faça login novamente.");
+    }
+
+    // 2. Verificar o perfil autorizado.
+    if (
+        !usuarioLogado ||
+        !usuarioLogado.id ||
+        usuarioLogado.perfil !== "agente"
+    ) {
+        throw new Error("Acesso negado. Usuário não autorizado.");
+    }
+
+    // 3. Verificar se o formulário pertence ao agente.
+    const formulario = await buscarFormulario(formularioId);
+
+    if (!formulario) {
+        throw new Error("Formulário não encontrado.");
+    }
+
+    if (
+        String(formulario.agente_id) !==
+        String(usuarioLogado.id)
+    ) {
+        throw new Error(
+            "Acesso negado. Este formulário não pertence ao agente conectado."
+        );
+    }
+
+    // 4. Verificar se o formulário permite alterações.
+    if (formulario.status !== "rascunho") {
+        throw new Error(
+            "Não é permitido restaurar imóveis deste formulário."
+        );
+    }
+
+    // 5. Verificar se o imóvel pertence ao formulário
+    // e se realmente está na lixeira.
+    const imoveisDaLixeira = await listarImoveisDaLixeira(formularioId);
+
+    const imovelEncontrado = imoveisDaLixeira.find(
+        item => String(item.id) === String(imovel.id)
+    );
+
+    if (!imovelEncontrado) {
+        throw new Error(
+            "Acesso negado. Imóvel não encontrado na lixeira deste formulário."
+        );
+    }
+
+    // Somente restaurar após todas as verificações.
+    const imovelRestaurado = await restaurarImovelDaLixeira(
+        imovel.id,
+        formularioId
+    );
+
+    if (!imovelRestaurado) {
+        throw new Error("Não foi possível restaurar o imóvel.");
+        }
+                // Atualizar a lista principal e os resumos.
+                await atualizarListaImoveis(formularioId);
+
+                // Atualizar os registros da lixeira.
+                await atualizarListaImoveisDaLixeira(formularioId);
+
+                alert("Imóvel restaurado com sucesso!");
+
+            } catch (erro) {
+                console.error(
+                    "PNCD: erro ao restaurar imóvel:",
+                    erro
+                );
+
+                alert(
+                    "Não foi possível restaurar o imóvel.\n\n" +
+                    (erro instanceof Error
+                        ? erro.message
+                        : "Erro desconhecido.")
+                );
+
+            } finally {
+                btnRestaurar.disabled = false;
+            }
+        });
+
+         item.appendChild(btnRestaurar);
+                lista.appendChild(item);
+    });
+}
+
+function configurarBotaoLixeira() {
+
+    const botao = document.getElementById(
+        "btn-abrir-lixeira"
+    );
+
+    const lista = document.getElementById(
+        "lista-imoveis-lixeira"
+    );
+
+    if (!botao || !lista) {
+        console.error("PNCD: botão ou lista da lixeira não encontrado.");
+        return;
+    }
+
+    botao.addEventListener("click", async () => {
+
+        if (!lista.hidden) {
+            lista.hidden = true;
+            botao.textContent = "VER LIXEIRA DE IMÓVEIS";
+            botao.setAttribute("aria-expanded", "false");
+            return;
+        }
+
+        const parametros = new URLSearchParams(
+            window.location.search
+        );
+
+        const formularioId = parametros.get("id");
+
+        if (!formularioId) {
+            alert("Formulário não identificado.");
+            return;
+        }
+
+        botao.disabled = true;
+
+        try {
+            await atualizarListaImoveisDaLixeira(formularioId);
+
+            lista.hidden = false;
+            botao.textContent = "OCULTAR LIXEIRA DE IMÓVEIS";
+            botao.setAttribute("aria-expanded", "true");
+
+        } catch (erro) {
+            console.error("PNCD: erro ao abrir a lixeira:", erro);
+            alert("Não foi possível carregar a lixeira.");
+
+        } finally {
+            botao.disabled = false;
+        }
+    });
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded",configurarBotaoLixeira);
+} else {
+    configurarBotaoLixeira();
+}
+
+function configurarValidacaoBackupPNCD() {
+
+    const botao = document.getElementById(
+        "btn-validar-backup-pncd"
+    );
+
+    const seletor = document.getElementById(
+        "arquivo-backup-pncd"
+    );
+
+    const resultado = document.getElementById(
+        "resultado-validacao-backup"
+    );
+
+    if (!botao || !seletor || !resultado) {
+        console.error(
+            "PNCD: elementos de validação do backup não encontrados."
+        );
+        return;
+    }
+
+    botao.addEventListener("click", async () => {
+
+        const arquivo = seletor.files[0];
+
+        if (!arquivo) {
+            resultado.textContent =
+                "Selecione um arquivo JSON primeiro.";
+            return;
+        }
+
+        botao.disabled = true;
+        resultado.textContent = "Validando backup...";
+
+        try {
+
+            const resumo = await validarArquivoBackupPNCD(
+                arquivo
+            );
+
+            resultado.replaceChildren();
+
+            const titulo = document.createElement("h4");
+            titulo.textContent = "Backup validado com sucesso!";
+            resultado.appendChild(titulo);
+
+            const informacoes = [
+                ["Sistema", resumo.sistema],
+                ["Data do backup", resumo.data_backup],
+                ["Versão do banco", resumo.versao_banco],
+                ["Formulários", resumo.formularios],
+                ["Imóveis", resumo.imoveis],
+                ["Auditoria", resumo.auditoria],
+                ["Sincronização", resumo.sincronizacao]
+            ];
+
+            informacoes.forEach(([nome, valor]) => {
+
+                const linha = document.createElement("p");
+
+                linha.textContent =
+                    nome + ": " + (valor ?? "-");
+
+                resultado.appendChild(linha);
+
+            });
+
+        } catch (erro) {
+
+            console.error(
+                "PNCD: erro na validação do backup:",
+                erro
+            );
+
+            resultado.textContent =
+                "Erro: " + erro.message;
+
+        } finally {
+
+            botao.disabled = false;
+
+        }
+
+    });
+}
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        configurarValidacaoBackupPNCD
+    );
+
+} else {
+
+    configurarValidacaoBackupPNCD();
+
+}
+   
+    async function cadastrarImovel() {
+        const parametros = new URLSearchParams(
+            window.location.search
+        );
+
+        const formularioId = parametros.get("id");
+
+        if (!formularioId) {
+            alert("Nenhum formulário foi selecionado.");
+            return;
+        }
+            // ETAPA 177.9.8 - PROTEGER CADASTRO DE IMÓVEIS
+                const sessao = sessionStorage.getItem("pncd_usuario_logado");
+
+                if (!sessao) {
+                    throw new Error("Acesso negado. Faça login para continuar.");
+                }
+
+                let usuarioLogado;
+
+                try {
+                    usuarioLogado = JSON.parse(sessao);
+                } catch {
+                    throw new Error("Sessão inválida. Faça login novamente.");
+                }
+
+                if (
+                    !usuarioLogado ||
+                    !usuarioLogado.id ||
+                    usuarioLogado.perfil !== "agente"
+                ) {
+                    throw new Error("Acesso negado. Usuário não autorizado.");
+                }
+
+                const formulario = await buscarFormulario(formularioId);
+
+                if (!formulario) {
+                    throw new Error("Formulário não encontrado.");
+                }
+
+                if (
+                    String(formulario.agente_id) !==
+                    String(usuarioLogado.id)
+                ) {
+                    throw new Error(
+                        "Acesso negado. Este formulário não pertence ao agente conectado."
+                    );
+                }
+
+                if (formulario.status !== "rascunho") {
+                    throw new Error(
+                        "Não é permitido cadastrar imóveis neste formulário."
+                    );
+                }
+        const valorCampo = (id) => {
+            return document.getElementById(id).value.trim();
+        };
+
+        // VALIDAR QUANTIDADES DOS DEPÓSITOS
+        const camposDepositos = [
+            "imovel-deposito-a1",
+            "imovel-deposito-a2",
+            "imovel-deposito-b",
+            "imovel-deposito-c",
+            "imovel-deposito-d1",
+            "imovel-deposito-d2",
+            "imovel-deposito-e"
+        ];
+
+        for (const id of camposDepositos) {
+            const campo = document.getElementById(id);
+            const valor = campo.value.trim();
+
+            // Campo vazio é permitido
+            if (valor === "") {
+                continue;
+            }
+
+            // Aceitar somente números inteiros não negativos
+            if (!/^\d+$/.test(valor) ||
+                !Number.isSafeInteger(Number(valor))) {
+
+                alert(
+                    "DEPÓSITOS: informe somente números " +
+                    "inteiros iguais ou maiores que zero."
+                );
+
+                campo.focus();
+                return;
+            }
+        }
+
+
+        // VALIDAR CAMPOS NUMÉRICOS DE INSPEÇÃO E COLETA
+        const camposNumericosInspecao = [
+        "imovel-inspecionados-li",
+        "imovel-quantidade-tubitos"
+        ];
+
+        for (const id of camposNumericosInspecao) {
+
+        const campo = document.getElementById(id);
+        const valor = campo.value.trim();
+
+        // Campo vazio é permitido
+        if (valor === "") {
+            continue;
+        }
+        //VALIDAÇÃO
+        // Aceitar somente inteiros não negativos
+        if (
+            !/^\d+$/.test(valor) ||
+            !Number.isSafeInteger(Number(valor))
+        ) {
+
+            alert(
+                "INSPEÇÃO E COLETA: informe somente " +
+                "números inteiros iguais ou maiores que zero."
+            );
+
+            campo.focus();
+            return;
+        }
+     }
+
+        // VALIDAR CAMPOS NUMÉRICOS DE TRATAMENTO
+        const camposNumericosTratamento = [
+        "imovel-depositos-eliminados",
+        "imovel-imoveis-tratados",
+        "imovel-l1",
+        "imovel-carga-larvicida",
+        "imovel-quantidade-tratados",
+        "imovel-adulticida",
+        "imovel-cargas-adulticida",
+        "imovel-perifocal",
+        "imovel-cargas-perifocal"
+        ];
+
+        for (const id of camposNumericosTratamento) {
+
+        const campo = document.getElementById(id);
+        const valor = campo.value.trim();
+
+        // Campos vazios são permitidos
+        if (valor === "") {
+            continue;
+        }
+
+        // Aceitar somente inteiros não negativos
+        if (
+            !/^\d+$/.test(valor) ||
+            !Number.isSafeInteger(Number(valor))
+        ) {
+            alert(
+                "TRATAMENTO: informe somente números inteiros " +
+                "iguais ou maiores que zero."
+            );
+
+            campo.focus();
+            return;
+            }
+        }
+         
+            const imovel = {
+                id: crypto.randomUUID(),
+                formulario_id: formularioId,
+                // DATA E HORA DO CADASTRO DO IMÓVEL
+                criado_em: new Date().toISOString(),
+
+                quarteirao: valorCampo("imovel-quarteirao"),
+                sequencia: valorCampo("imovel-sequencia"),
+                lado: valorCampo("imovel-lado"),
+                logradouro: valorCampo("imovel-logradouro"),
+                numero: valorCampo("imovel-numero"),
+                sequencia_imovel: valorCampo("imovel-sequencia-imovel"),
+                
+                complemento: valorCampo("imovel-complemento"),
+                tipo_imovel: valorCampo("imovel-tipo"),
+
+              
+                // Visita e Pendência
+                hora_visita: valorCampo("imovel-hora"),
+                tipo_visita: valorCampo("imovel-visita"),
+                pendencia: valorCampo("imovel-pendencia"),
+               
+                // Depósitos
+                deposito_a1: valorCampo("imovel-deposito-a1"),
+                deposito_a2: valorCampo("imovel-deposito-a2"),
+                deposito_b: valorCampo("imovel-deposito-b"),
+                deposito_c: valorCampo("imovel-deposito-c"),
+                deposito_d1: valorCampo("imovel-deposito-d1"),
+                deposito_d2: valorCampo("imovel-deposito-d2"),
+                deposito_e: valorCampo("imovel-deposito-e"),
+
+                // Inspeção e Coleta
+                inspecionados_li: valorCampo("imovel-inspecionados-li"),
+                numero_amostra: valorCampo("imovel-numero-amostra"),
+                quantidade_tubitos: valorCampo("imovel-quantidade-tubitos"),
+                coleta_inicial: valorCampo("imovel-coleta-inicial"),
+                coleta_final: valorCampo("imovel-coleta-final"),
+
+
+                // TRATAMENTO
+                depositos_eliminados: valorCampo("imovel-depositos-eliminados"),
+                imoveis_tratados: valorCampo("imovel-imoveis-tratados"),
+                l1: valorCampo("imovel-l1"),
+                carga_larvicida: valorCampo("imovel-carga-larvicida"),
+                quantidade_tratados: valorCampo("imovel-quantidade-tratados"),
+                adulticida: valorCampo("imovel-adulticida"),
+                cargas_adulticida: valorCampo("imovel-cargas-adulticida"),
+                perifocal: valorCampo("imovel-perifocal"),
+                cargas_perifocal: valorCampo("imovel-cargas-perifocal"),
+
+            };
+
+          if (!imovel.logradouro) {
+              alert("Informe o nome do logradouro.");
+              return;
+          }               
+            await salvarImovelComNumeroOrdem(imovel);
+
+          // Atualizar somente a lista de imóveis
+          await atualizarListaImoveis(formularioId);
+
+          // Exibir confirmação após salvar o imóvel
+
+          // Exibir confirmação após salvar o imóvel
+          const mensagemSucesso = document.getElementById(
+              "mensagem-imovel-salvo"
+          );
+
+          if (mensagemSucesso) {
+              // Cancela um temporizador anterior, se existir
+              clearTimeout(window.temporizadorMensagemImovel);
+
+              // Exibe a mensagem
+              mensagemSucesso.hidden = false;
+
+              // Oculta automaticamente após 5 segundos
+              window.temporizadorMensagemImovel = setTimeout(() => {
+                  mensagemSucesso.hidden = true;
+              }, 5000);
+          }
+
+
+            // Limpar os campos após salvar o imóvel
+
+
+          const camposParaLimpar = [
+              // Identificação do imóvel
+              "imovel-quarteirao",
+              "imovel-sequencia",
+              "imovel-lado",
+              "imovel-logradouro",
+              "imovel-numero",
+              "imovel-sequencia-imovel",
+              "imovel-complemento",
+              "imovel-tipo",
+
+              // Visita e Pendência
+              "imovel-hora",
+              "imovel-visita",
+              "imovel-pendencia",
+              
+              // Depósitos
+              "imovel-deposito-a1",
+              "imovel-deposito-a2",
+              "imovel-deposito-b",
+              "imovel-deposito-c",
+              "imovel-deposito-d1",
+              "imovel-deposito-d2",
+              "imovel-deposito-e",
+
+              
+              // Inspeção e Coleta
+              "imovel-inspecionados-li",
+              "imovel-numero-amostra",
+              "imovel-quantidade-tubitos",
+              "imovel-coleta-inicial",
+              "imovel-coleta-final",
+
+              // Tratamento
+              "imovel-depositos-eliminados",
+              "imovel-imoveis-tratados",
+              "imovel-l1",
+              "imovel-carga-larvicida",
+              "imovel-quantidade-tratados",
+              "imovel-adulticida",
+              "imovel-cargas-adulticida",
+              "imovel-perifocal",
+              "imovel-cargas-perifocal"
+
+          ];
+
+          camposParaLimpar.forEach((id) => {
+              document.getElementById(id).value = "";
+          });
+
+          // Posicionar o cursor no primeiro campo
+          document.getElementById("imovel-quarteirao").focus();
+
+          console.log(
+              "PNCD Offline: imóvel cadastrado.",
+              imovel.id
+          );
+
+          // A lista será atualizada sem recarregar a página.
+          // A implementação será adicionada na próxima etapa.
+
+    }
+
+            // ETAPA 177.9.58 - CONTROLE DE GRAVAÇÃO DE IMÓVEIS
+                    let gravacaoImovelEmAndamento = false;
+
+        // Evento principal para cadastrar ou atualizar um imóvel.
+        document.getElementById("btn-salvar-imovel")
+            .addEventListener("click", async function () {
+
+                 const botao = this;
+
+                 if (gravacaoImovelEmAndamento) {
+                return;
+                }
+                    gravacaoImovelEmAndamento = true;
+
+        // Identificar o modo antes de iniciar
+        const estaEditando = imovelEmEdicaoId !== null;
+
+        botao.disabled = true;
+        botao.textContent = estaEditando
+            ? "SALVANDO ALTERAÇÕES..."
+            : "SALVANDO...";
+
+        try {
+
+            if (estaEditando) {
+
+                // Atualizar imóvel existente
+                const atualizado = await salvarEdicaoImovel();
+
+                if (atualizado === false) {
+                    return;
+                }
+
+                // Atualizar a lista de imóveis
+                const formularioId = new URLSearchParams(
+                    window.location.search
+                ).get("id");
+
+                if (formularioId) {
+                    await atualizarListaImoveis(formularioId);
+                }
+
+                // Voltar ao modo de cadastro
+                cancelarEdicaoImovel();
+
+                alert("Imóvel atualizado com sucesso!");
+
+            } else {
+
+                // Manter o cadastro normal
+                await cadastrarImovel();
+
+            }
+
+        } catch (erro) {
+
+            console.error(
+                "PNCD Offline: erro ao salvar imóvel:",
+                erro
+            );
+
+            alert(
+                "Erro ao salvar imóvel. Nenhuma nova tentativa foi realizada automaticamente."
+            );
+
+        } finally {
+
+            botao.disabled = false;
+
+            botao.textContent = imovelEmEdicaoId !== null
+                ? "SALVAR ALTERAÇÕES"
+                : "SALVAR IMÓVEL";
+                gravacaoImovelEmAndamento = false;
+        }
+});
+
+</script>
+
+</html>
+
+

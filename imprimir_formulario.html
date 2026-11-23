@@ -1,0 +1,881 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Imprimir FAD 01 | PNCD V9 OFFLINE</title>
+
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 5mm;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .pagina-fad01 {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .titulo-principal {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .subtitulo {
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        /* CABEÇALHO COM LOGOTIPOS INSTITUCIONAIS */
+
+        .cabecalho-fad01 {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 5px;
+        }
+
+        .identidade-institucional {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .logos-institucionais {
+            width: 115px;
+            height: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .instituicao {
+            font-size: 7px;
+            line-height: 1.3;
+        }
+
+        .instituicao strong {
+            font-size: 8px;
+        }
+
+
+        .instituicao {
+            font-size: 7px;
+            line-height: 1.3;
+        }
+
+        .instituicao strong {
+            font-size: 8px;
+        }
+
+        .titulos-fad01 {
+            text-align: center;
+        }
+
+        .titulo-principal {
+            font-size: 13px;
+            margin: 0 0 3px 0;
+        }
+
+        .subtitulo {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        /* IDENTIFICAÇÃO DO FORMULÁRIO FAD 01 */
+
+        .identificacao-fad01 {
+            display: grid;
+            grid-template-columns:
+                24% 6% 24% 6% 21% 10% 9%;
+            width: 100%;
+            border-top: 1px solid #000;
+            border-left: 1px solid #000;
+            box-sizing: border-box;
+        }
+
+              .campo-fad {
+                  display: flex;
+                  flex-direction: column;
+                  text-align: center;
+                  min-width: 0;
+                  border-right: 1px solid #000;
+                  border-bottom: 1px solid #000;
+                  box-sizing: border-box;
+              }           
+              .campo-fad strong {
+                  background: #e5e5e5;
+                  font-size: 7px;
+                  padding: 2px 1px;
+                  border-bottom: 1px solid #000;
+                  line-height: 1.1;
+              }
+              .campo-fad span {
+                  font-size: 8px;
+                  padding: 2px 1px;
+                  min-height: 10px;
+                  line-height: 1.2;
+                  overflow-wrap: anywhere;
+              }
+
+            
+            /* DATA, CICLO E ATIVIDADES FAD 01 */
+
+            .atividade-fad01 {
+                display: grid;
+                grid-template-columns: 16% 16% 68%;
+                width: 100%;
+                margin-top: 5px;
+                gap: 4px;
+                box-sizing: border-box;
+            }
+
+            .campo-atividade {
+                border: 1px solid #000;
+                text-align: center;
+                min-width: 0;
+                box-sizing: border-box;
+            }
+
+            .campo-atividade > strong {
+                display: block;
+                background: #e5e5e5;
+                border-bottom: 1px solid #000;
+                font-size: 7px;
+                padding: 3px;
+            }
+
+            .campo-atividade > span {
+                display: block;
+                font-size: 10px;
+                padding: 7px 2px;
+            }         
+            /* ATIVIDADES - DIVISÃO DO FAD 01 OFICIAL */
+
+            .opcoes-atividades {
+                display: grid;
+                grid-template-columns: 34px 1fr 1.5fr 1.15fr;
+                grid-template-rows: 18px 18px;
+                gap: 0;
+                padding: 0;
+                text-align: left;
+                font-size: 9px;
+            }
+
+            .marcacao-atividade {
+                grid-column: 1;
+                grid-row: 1 / 3;
+                display: flex;
+                align-items: flex-start;
+                justify-content: center;
+                border-right: 1px solid #000;
+                padding-top: 2px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+            .opcao-atividade {
+                display: flex;
+                align-items: center;
+                padding: 1px 4px;
+                border-right: 1px solid #000;
+                min-width: 0;
+                line-height: 1.1;
+            }
+
+            .opcao-atividade:nth-child(2),
+            .opcao-atividade:nth-child(3),
+            .opcao-atividade:nth-child(4) {
+                border-bottom: 1px solid #000;
+            }
+
+            .opcao-atividade:nth-child(4),
+            .opcao-atividade:nth-child(7) {
+                border-right: none;
+            }
+
+
+            .atividade-selecionada {
+                font-size: 7px;
+                font-weight: bold;
+                padding: 3px;
+            }
+
+            /* TABELA PESQUISA ENTOMOLÓGICA / TRATAMENTO */
+
+            .pesquisa-fad01 {
+                margin-top: 6px;
+                width: 100%;
+            }
+
+            .titulo-pesquisa {
+                text-align: center;
+                font-size: 10px;
+                font-weight: bold;
+                margin: 4px 0;
+            }
+
+            
+            .tabela-fad01 {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+                margin: 0;
+            }
+
+            .tabela-fad01 th,
+            .tabela-fad01 td {
+                border: 1px solid #000;
+                box-sizing: border-box;
+                text-align: center;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Arial, sans-serif;
+            }
+
+            .tabela-fad01 th {
+                background: #e5e5e5;
+                font-size: 6px;
+                font-weight: bold;
+            }
+
+            .tabela-fad01 td {
+                font-size: 7px;
+                height: 17px;
+            }
+
+
+            .tabela-fad01 th,
+            .tabela-fad01 td {
+                border: 1px solid #000;
+                padding: 2px 1px;
+                font-size: 5.5px;
+                text-align: center;
+                overflow-wrap: anywhere;
+                vertical-align: middle;
+            }
+
+            .tabela-fad01 th {
+                background: #eeeeee;
+                font-weight: bold;
+            }
+
+            .tabela-fad01 td {
+                height: 13px;
+            }
+
+            .tabela-fad01 th:nth-child(4),
+            .tabela-fad01 td:nth-child(4) {
+                width: 12%;
+                text-align: left;
+            }
+
+            @media print {
+                .tabela-fad01 thead {
+                    display: table-header-group;
+                }
+
+                .tabela-fad01 tr {
+                    break-inside: avoid;
+                    page-break-inside: avoid;
+                }
+            }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            .nao-imprimir {
+                display: none !important;
+            }
+        }
+
+            /* FAD 01 OFICIAL - CABEÇALHOS VERTICAIS */
+
+            .tabela-fad01 th.cabecalho-vertical {
+                height: 105px;
+                padding: 2px 1px;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .tabela-fad01 th.cabecalho-vertical > span {
+                display: inline-block;
+                writing-mode: vertical-rl;
+                transform: rotate(180deg);
+                white-space: normal;
+                line-height: 1.1;
+                font-size: 6px;
+            }
+
+            .tabela-fad01 th.cabecalho-horizontal {
+                text-align: center;
+                vertical-align: middle;
+                font-size: 8px;
+                font-weight: bold;
+            }
+
+            .tabela-fad01 th.cabecalho-grupo {
+                text-align: center;
+                font-size: 7px;
+                font-weight: bold;
+                background: #e5e5e5;
+            }
+
+            @media print {
+                .tabela-fad01 th.cabecalho-vertical {
+                    height: 105px;
+                }
+            }
+                /* EVITAR QUE REGRAS ANTIGAS ALTEREM AS LARGURAS */
+                .tabela-fad01 th:nth-child(4),
+                .tabela-fad01 td:nth-child(4) {
+                    width: auto;
+            }
+
+                /* FAD 01 - MELHORIA DA LEGIBILIDADE */
+
+                .tabela-fad01 td {
+                    font-size: 9px;
+                    height: 20px;
+                    line-height: 1.2;
+                    padding: 2px 1px;
+                }
+
+                .tabela-fad01 th {
+                    font-size: 8px;
+                    line-height: 1.2;
+                }
+
+                .tabela-fad01 th.cabecalho-vertical > span {
+                    font-size: 8px;
+                    line-height: 1.2;
+                }
+
+                .tabela-fad01 th.cabecalho-horizontal {
+                    font-size: 10px;
+                }
+
+                .tabela-fad01 th.cabecalho-grupo {
+                    font-size: 9px;
+                }
+
+                .campo-fad strong,
+                .campo-atividade > strong {
+                    font-size: 9px;
+                }
+
+                .campo-fad span,
+                .campo-atividade > span {
+                    font-size: 10px;
+                }
+
+                .instituicao {
+                    font-size: 9px;
+                }
+
+                .instituicao strong {
+                    font-size: 10px;
+                }
+
+                /* RODAPÉ OFICIAL FAD 01 */
+
+                .rodape-fad01 {
+                    margin-top: 5px;
+                    break-inside: avoid;
+                    page-break-inside: avoid;
+                }
+
+                .assinaturas-fad01 {
+                    display: grid;
+                    grid-template-columns: 24.5% 24.5%;
+                    gap: 1%;
+                }
+
+                .assinatura-fad01 {
+                    display: flex;
+                    height: 26px;
+                    border: 1px solid #000;
+                    box-sizing: border-box;
+                }
+
+                .rotulo-assinatura {
+                    width: 65px;
+                    flex-shrink: 0;
+                    border-right: 1px solid #000;
+                    font-size: 7px;
+                    line-height: 1.1;
+                    padding: 3px;
+                    box-sizing: border-box;
+                }
+
+                .nome-assinatura {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 10px;
+                    font-weight: normal;
+                    min-width: 0;
+                }
+
+                .identificacao-rodape {
+                    font-size: 8px;
+                    font-weight: bold;
+                    margin-top: 4px;
+                    margin-left: 25px;
+                }
+
+  </style>
+</head>
+
+<body>
+   
+      <main id="conteudo-impressao">
+          <!-- CABEÇALHO INSTITUCIONAL FAD 01 -->
+          
+<header class="cabecalho-fad01">
+
+                <div class="identidade-institucional">
+                  <img
+                      src="imagens/logos_sus_tocantins.png"
+                      alt="Logotipos do SUS e do Estado do Tocantins"
+                      class="logos-institucionais"
+                  >
+                  <div class="instituicao">
+                    <strong>
+                      Secretaria de Estado da Saúde, Tocantins
+                    </strong>
+
+                    <div>
+                      Superintendência de Vigilância e
+                      Proteção à Saúde
+                    </div>
+
+                    <div>
+                      Diretoria de Vigilância Epidemiológica
+                    </div>
+
+                    <div>
+                      Coordenadoria de Doenças Vetoriais
+                      e Zoonoses
+                    </div>
+                  </div>
+                </div>
+              <div class="titulos-fad01">
+
+                  <h1 class="titulo-principal">
+                      PROGRAMA NACIONAL DE CONTROLE
+                      DA DENGUE - PNCD
+                  </h1>
+
+                  <h2 class="subtitulo">
+                      RESUMO DIÁRIO DO SERVIÇO ANTIVETORIAL
+                  </h2>
+            </div>
+          </header>
+
+          <!-- IDENTIFICAÇÃO DO FORMULÁRIO FAD 01 -->
+          <section class="identificacao-fad01">
+
+              <div class="campo-fad municipio">
+                  <strong>Município</strong>
+                  <span id="pdf-municipio">-</span>
+              </div>
+
+              <div class="campo-fad codigo">
+                  <strong>Cód. Loc.</strong>
+                  <span id="pdf-codigo-localidade">-</span>
+              </div>
+
+              <div class="campo-fad localidade">
+                  <strong>Nome da localidade</strong>
+                  <span id="pdf-localidade">-</span>
+              </div>
+
+              <div class="campo-fad categoria">
+                  <strong>Categ. Localid.</strong>
+                  <span id="pdf-categoria">-</span>
+              </div>
+
+              <div class="campo-fad zona">
+                  <strong>Nº e Nome da Zona (desmembramento)</strong>
+                  <span id="pdf-zona">-</span>
+              </div>
+
+              <div class="campo-fad tipo">
+                  <strong>Tipo</strong>
+                  <span id="pdf-tipo">-</span>
+              </div>
+
+              <div class="campo-fad zona-concluida">
+                  <strong>Zona Concluída?</strong>
+                  <span id="pdf-zona-concluida">-</span>
+              </div>
+
+          </section>
+
+          <!-- DATA, CICLO E ATIVIDADES FAD 01 -->
+
+          <section class="atividade-fad01">
+
+              <div class="campo-atividade data-atividade">
+                  <strong>Data da atividade</strong>
+                  <span id="pdf-data-atividade">-</span>
+              </div>
+
+              <div class="campo-atividade ciclo-atividade">
+                  <strong>Ciclo/ano</strong>
+                  <span id="pdf-ciclo-ano">-</span>
+              </div>
+
+              <div class="campo-atividade lista-atividades">
+
+                  <strong>Atividade</strong>
+
+                  
+                    <div class="opcoes-atividades">
+
+                        <div class="marcacao-atividade" id="pdf-marcacao-atividade">
+                            X
+                        </div>
+
+                        <div class="opcao-atividade">
+                            1 - LI-Levantamento de índice
+                        </div>
+
+                        <div class="opcao-atividade">
+                            2 - LI+T - Levantamento de índice + Tratamento
+                        </div>
+
+                        <div class="opcao-atividade">
+                            3 - PE - Ponto Estratégico
+                        </div>
+
+                        <div class="opcao-atividade">
+                            4 - T-Tratamento
+                        </div>
+
+                        <div class="opcao-atividade">
+                            5 - DF - Delimitação de Foco
+                        </div>
+
+                        <div class="opcao-atividade">
+                            6 - PVE - Pesquisa Vetorial Especial
+                        </div>
+
+                    </div>
+
+                  <div id="pdf-atividade-selecionada"
+                      class="atividade-selecionada"
+                      hidden></div>
+
+              </div>
+
+          </section>
+
+          <!-- PESQUISA ENTOMOLÓGICA / TRATAMENTO -->
+
+          <section class="pesquisa-fad01">
+
+              <h3 class="titulo-pesquisa">
+                  PESQUISA ENTOMOLÓGICA / TRATAMENTO
+              </h3>
+
+              <table class="tabela-fad01">
+                    
+                <colgroup>
+                    <!-- IDENTIFICAÇÃO DO IMÓVEL -->
+                    <col style="width: 2.5%">
+                    <col style="width: 2.5%">
+                    <col style="width: 2%">
+                    <col style="width: 16%">
+                    <col style="width: 2.5%">
+                    <col style="width: 2.5%">
+                    <col style="width: 5%">
+                    <col style="width: 4%">
+
+                    <!-- VISITA / PENDÊNCIA -->
+                    <col style="width: 3%">
+                    <col style="width: 2.5%">
+                    <col style="width: 2.5%">
+
+                    <!-- DEPÓSITOS -->
+                    <col span="7" style="width: 2.5%">
+
+                    <!-- INSPEÇÃO / COLETA -->
+                    <col span="5" style="width: 2.5%">
+
+                    <!-- TRATAMENTO -->
+                    <col span="9" style="width: 2.5%">
+                </colgroup>
+
+                  <thead>
+                      <tr>
+                          <th colspan="8">IDENTIFICAÇÃO DO IMÓVEL</th>
+                          <th colspan="3">VISITA / PENDÊNCIA</th>
+                          <th colspan="7">DEPÓSITOS INSPECIONADOS</th>
+                          <th colspan="5">INSPEÇÃO / COLETA</th>
+                          <th colspan="9">TRATAMENTO</th>
+                      </tr>                     
+                            <tr>
+                                <!-- IDENTIFICAÇÃO DO IMÓVEL -->
+                                <th class="cabecalho-vertical"><span>Nº do quarteirão</span></th>
+                                <th class="cabecalho-vertical"><span>Sequência</span></th>
+                                <th class="cabecalho-vertical"><span>Lado</span></th>
+                                <th class="cabecalho-horizontal">Nome do Logradouro</th>
+                                <th class="cabecalho-horizontal">Nº</th>
+                                <th class="cabecalho-vertical"><span>Sequência</span></th>
+                                <th class="cabecalho-vertical"><span>Complemento</span></th>
+                                <th class="cabecalho-vertical"><span>Tipo do Imóvel</span></th>
+
+                                <!-- VISITA E PENDÊNCIA -->
+                                <th class="cabecalho-vertical"><span>Hora da visita</span></th>
+                                <th class="cabecalho-vertical"><span>Visita (N-Normal / R-Recup.)</span></th>
+                                <th class="cabecalho-vertical"><span>Pendência (F-Fechado / R-Recusa)</span></th>
+
+                                <!-- DEPÓSITOS INSPECIONADOS -->
+                                <th class="cabecalho-vertical"><span>A1</span></th>
+                                <th class="cabecalho-vertical"><span>A2</span></th>
+                                <th class="cabecalho-vertical"><span>B</span></th>
+                                <th class="cabecalho-vertical"><span>C</span></th>
+                                <th class="cabecalho-vertical"><span>D1</span></th>
+                                <th class="cabecalho-vertical"><span>D2</span></th>
+                                <th class="cabecalho-vertical"><span>E</span></th>
+
+                                <!-- INSPEÇÃO E COLETA -->
+                                <th class="cabecalho-vertical"><span>Imóveis inspecionados (LI)</span></th>
+                                <th class="cabecalho-vertical"><span>Nº da amostra</span></th>
+                                <th class="cabecalho-vertical"><span>Qtde. tubitos</span></th>
+                                <th class="cabecalho-vertical"><span>Inicial</span></th>
+                                <th class="cabecalho-vertical"><span>Final</span></th>
+
+                                <!-- TRATAMENTO -->
+                                <th class="cabecalho-vertical"><span>Depósitos eliminados</span></th>
+                                <th class="cabecalho-vertical"><span>Imóveis tratados</span></th>
+                                <th class="cabecalho-vertical"><span>Tipo (L1)</span></th>
+                                <th class="cabecalho-vertical"><span>Qtde. (carga)</span></th>
+                                <th class="cabecalho-vertical"><span>Qtde. dep. tratados</span></th>
+                                <th class="cabecalho-vertical"><span>Adulticida</span></th>
+                                <th class="cabecalho-vertical"><span>Qtde. cargas</span></th>
+                                <th class="cabecalho-vertical"><span>Perifocal</span></th>
+                                <th class="cabecalho-vertical"><span>Qtde. cargas</span></th>
+                            </tr>
+
+                  </thead>
+
+                  <tbody id="pdf-linhas-imoveis">
+                      <!-- Imóveis carregados do IndexedDB -->
+                  </tbody>
+              </table>
+          </section>
+                  <!-- RODAPÉ OFICIAL FAD 01 -->
+
+                  <footer class="rodape-fad01">
+
+                      <div class="assinaturas-fad01">
+
+                          <div class="assinatura-fad01">
+                              <div class="rotulo-assinatura">
+                                  Assinatura do<br>Agente
+                              </div>
+                              <div class="nome-assinatura"
+                                  id="pdf-nome-agente">
+                              </div>
+                          </div>
+
+                          <div class="assinatura-fad01">
+                              <div class="rotulo-assinatura">
+                                  Assinatura do<br>Supervisor
+                              </div>
+                              <div class="nome-assinatura"
+                                  id="pdf-nome-supervisor">
+                              </div>
+                          </div>
+
+                      </div>
+
+                      <div class="identificacao-rodape">
+                          FAD 01 - Diário
+                      </div>
+                  </footer>
+      </main>
+
+    <script src="js/banco.js?v=61"></script>
+        <script>
+            // PNCD V9 OFFLINE - IMPRESSÃO FAD 01
+            // Preparação das colunas dos imóveis
+
+            const CAMPOS_IMPRESSAO_FAD01 = [
+                "quarteirao",
+                "sequencia",
+                "lado",
+                "logradouro",
+                "numero",
+                "sequencia_imovel",
+                "complemento",
+                "tipo_imovel",
+                "hora_visita",
+                "tipo_visita",
+                "pendencia",
+                "deposito_a1",
+                "deposito_a2",
+                "deposito_b",
+                "deposito_c",
+                "deposito_d1",
+                "deposito_d2",
+                "deposito_e",
+                "inspecionados_li",
+                "numero_amostra",
+                "quantidade_tubitos",
+                "coleta_inicial",
+                "coleta_final",
+                "depositos_eliminados",
+                "imoveis_tratados",
+                "l1",
+                "carga_larvicida",
+                "quantidade_tratados",
+                "adulticida",
+                "cargas_adulticida",
+                "perifocal",
+                "cargas_perifocal"
+            ];
+
+            function criarLinhaImpressao(imovel) {
+                const linha = document.createElement("tr");
+
+                CAMPOS_IMPRESSAO_FAD01.forEach(function(campo) {
+                    const celula = document.createElement("td");
+
+                    const valor = imovel[campo];
+
+                    celula.textContent =
+                        valor === null ||
+                        valor === undefined ||
+                        valor === ""
+                            ? ""
+                            : String(valor);
+
+                    linha.appendChild(celula);
+                });
+
+                return linha;
+            }
+
+            function preencherTabelaImpressao(imoveis) {
+                const corpo = document.getElementById(
+                    "pdf-linhas-imoveis"
+                );
+
+                corpo.replaceChildren();
+
+                imoveis.forEach(function(imovel) {
+                    corpo.appendChild(
+                        criarLinhaImpressao(imovel)
+                    );
+                });
+            }
+
+            // PREENCHIMENTO DAS ASSINATURAS - SOMENTE LEITURA
+
+            function preencherAssinaturasFAD01(nomeAgente, nomeSupervisor) {
+                const campoAgente = document.getElementById(
+                    "pdf-nome-agente"
+                );
+
+                const campoSupervisor = document.getElementById(
+                    "pdf-nome-supervisor"
+                );
+
+                if (campoAgente) {
+                    campoAgente.textContent =
+                        nomeAgente == null || String(nomeAgente).trim() === ""
+                            ? ""
+                            : String(nomeAgente);
+                }
+
+                if (campoSupervisor) {
+                    campoSupervisor.textContent =
+                        nomeSupervisor == null || String(nomeSupervisor).trim() === ""
+                            ? ""
+                            : String(nomeSupervisor);
+                }
+            }
+
+          // CARREGAR IMÓVEIS PARA IMPRESSÃO - SOMENTE LEITURA
+
+          async function carregarImoveisParaImpressao() {
+              const parametros = new URLSearchParams(
+                  window.location.search
+              );
+
+              const formularioId = parametros.get("id");
+
+              if (!formularioId) {
+                  console.warn(
+                      "Impressão FAD 01: ID do formulário não informado."
+                  );
+                  return;
+              }
+
+              try {
+                  const formulario = await buscarFormulario(
+                      formularioId
+                  );
+
+                  if (!formulario) {
+                      console.error(
+                          "Formulário não encontrado:",
+                          formularioId
+                      );
+                      return;
+                  }
+
+                  const imoveis = await listarImoveis(
+                      formularioId
+                  );
+
+                  preencherTabelaImpressao(imoveis);
+
+                  console.log(
+                      "PNCD FAD 01 - Formulário:",
+                      formularioId
+                  );
+
+                  console.log(
+                      "Total de imóveis ativos carregados:",
+                      imoveis.length
+                  );
+
+              } catch (erro) {
+                  console.error(
+                      "Erro ao carregar dados para impressão:",
+                      erro
+                  );
+              }
+          }
+
+          document.addEventListener(
+              "DOMContentLoaded",
+              carregarImoveisParaImpressao
+          );
+
+        </script>
+    </body>
+</html>

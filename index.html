@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>PNCD V9 Offline | CMB-SOFT</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007BFF">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div style="
+            max-width: 450px;
+            margin: 70px auto;
+            padding: 30px;
+            background: rgba(7, 20, 38, 0.80);
+            border: 1px solid #00B8D9;
+            border-radius: 16px;
+            text-align: center;
+        ">
+
+            <h1>PNCD V9 OFFLINE</h1>
+
+            <p>
+                Sistema de Registro Diário
+                do Serviço Antivetorial
+            </p>
+
+            <p style="color: #00D4FF;">
+                CMB-SOFT | Soluções Inteligentes
+            </p>
+
+            <hr style="border-color: #234A66;">
+
+            <h2>Acesso do Agente</h2>
+
+            <label for="usuario">Usuário</label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Digite seu usuário"
+                autocomplete="username"
+                style="
+                    width: 100%;
+                    padding: 12px;
+                    margin: 10px 0 20px;
+                    border-radius: 8px;
+                    border: 1px solid #00B8D9;
+                "
+            >
+
+            <label for="senha">Senha</label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                autocomplete="current-password"
+                style="
+                    width: 100%;
+                    padding: 12px;
+                    margin: 10px 0 20px;
+                    border-radius: 8px;
+                    border: 1px solid #00B8D9;
+                "
+            >
+
+            <button
+                type="button"
+                id="btn-entrar"
+                class="btn-principal"
+                style="width: 100%;"
+                disabled
+                >
+                ENTRAR
+            </button>
+
+            <!-- PNCD OFFLINE V1.0 - CONFIGURAÇÃO INICIAL -->
+            <div id="area-primeiro-acesso" style="display: none; margin-top: 15px;"><!-- DADOS DO PRIMEIRO ADMINISTRADOR -->
+                <div id="campos-primeiro-admin" style="display: none; margin-bottom: 15px;">
+
+                    <input
+                        type="text"
+                        id="admin-nome"
+                        placeholder="Nome completo"
+                        autocomplete="name"
+                        style="width: 100%; margin-bottom: 10px;"
+                    >
+
+                    <input
+                        type="text"
+                        id="admin-matricula"
+                        placeholder="Matrícula"
+                        style="width: 100%; margin-bottom: 10px;"
+                    >
+
+                    <input
+                        type="text"
+                        id="admin-usuario"
+                        placeholder="Nome de usuário"
+                        autocomplete="username"
+                        style="width: 100%; margin-bottom: 10px;"
+                    >
+
+                    <input
+                        type="password"
+                        id="admin-senha"
+                        placeholder="Senha (mínimo de 12 caracteres)"
+                        autocomplete="new-password"
+                        style="width: 100%; margin-bottom: 10px;"
+                    >
+
+                    <input
+                        type="password"
+                        id="admin-confirmar-senha"
+                        placeholder="Confirmar senha"
+                        autocomplete="new-password"
+                        style="width: 100%; margin-bottom: 10px;"
+                    >
+
+                </div>
+
+                    <button
+                        type="button"
+                        id="btn-primeiro-acesso"
+                        class="btn-principal"
+                        style="width: 100%;"
+                    >
+                        CONFIGURAR PRIMEIRO ADMINISTRADOR
+                    </button>
+
+            </div>
+
+            <!-- Mensagens de autenticação PNCD Offline -->
+                <p
+                    id="mensagem-login"
+                    role="status"
+                    aria-live="polite"
+                    style="
+                        margin-top: 12px;
+                        text-align: center;
+                        font-size: 14px;
+                        font-weight: bold;
+                        min-height: 20px;
+                    "
+                ></p>
+            <p style="
+                margin-top: 25px;
+                font-size: 13px;
+                color: #AFC7D8;
+            ">
+                Versão Offline — Ambiente de Desenvolvimento
+            </p>
+
+        </div>
+
+    </main>
+
+<script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+            try {
+                const registro =
+                    await navigator.serviceWorker.register("./sw.js");
+
+                console.log(
+                    "PNCD Offline: Service Worker registrado.",
+                    registro.scope
+                );
+            } catch (erro) {
+                console.error(
+                    "Erro ao registrar Service Worker:",
+                    erro
+                );
+            }
+        });
+    }
+</script>
+
+<!-- Banco de dados local PNCD Offline -->
+<script src="js/banco.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const banco = await abrirBanco();
+
+            console.log(
+                "PNCD Offline: IndexedDB inicializado com sucesso!"
+            );
+
+            console.log(
+                "Tabelas criadas:",
+                Array.from(banco.objectStoreNames)
+            );
+
+            banco.close();
+
+        } catch (erro) {
+            console.error(
+                "Falha ao inicializar IndexedDB:",
+                erro
+            );
+        }
+    });
+</script>
+<!-- PNCD OFFLINE - AUTENTICAÇÃO NA TELA DE LOGIN -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const campoUsuario = document.getElementById("usuario");
+        const campoSenha = document.getElementById("senha");
+        const botaoEntrar = document.getElementById("btn-entrar");
+        const mensagem = document.getElementById("mensagem-login");
+
+        if (
+            !campoUsuario ||
+            !campoSenha ||
+            !botaoEntrar ||
+            !mensagem
+        ) {
+            console.error(
+                "PNCD Offline: elementos do login não encontrados."
+            );
+            return;
+        }
+
+        botaoEntrar.disabled = false;
+                // PNCD OFFLINE V1.0 - IDENTIFICAR PRIMEIRO ACESSO
+                const areaPrimeiroAcesso = document.getElementById(
+                    "area-primeiro-acesso"
+                );
+
+                const botaoPrimeiroAcesso = document.getElementById(
+                    "btn-primeiro-acesso"
+                );
+
+                async function verificarConfiguracaoInicial() {
+                    try {
+                        const primeiroAcesso = await verificarPrimeiroAcessoPNCD();
+
+                        if (primeiroAcesso) {
+                            areaPrimeiroAcesso.style.display = "block";
+                            botaoEntrar.disabled = true;
+
+                            mensagem.textContent =
+                                "Primeira instalação: configure o administrador.";
+                            mensagem.style.color = "#176b46";
+                        } else {
+                            areaPrimeiroAcesso.style.display = "none";
+                            botaoEntrar.disabled = false;
+                        }
+
+                    } catch (erro) {
+                        console.error(
+                            "PNCD Offline: erro ao verificar configuração inicial.",
+                            erro
+                        );
+
+                        botaoEntrar.disabled = true;
+
+                        mensagem.textContent =
+                            "Não foi possível verificar a configuração inicial.";
+                        mensagem.style.color = "#b42318";
+                    }
+                }
+
+                botaoEntrar.disabled = true;
+                verificarConfiguracaoInicial();
+
+                // PNCD OFFLINE V1.0 - CADASTRO DO PRIMEIRO ADMINISTRADOR
+            const camposPrimeiroAdmin = document.getElementById(
+                "campos-primeiro-admin"
+            );
+
+            botaoPrimeiroAcesso.addEventListener("click", async () => {
+
+                if (camposPrimeiroAdmin.style.display === "none") {
+                    camposPrimeiroAdmin.style.display = "block";
+                    botaoPrimeiroAcesso.textContent = "SALVAR PRIMEIRO ADMINISTRADOR";
+                    return;
+                }
+
+                const nome = document.getElementById("admin-nome").value.trim();
+                const matricula = document.getElementById("admin-matricula").value.trim();
+                const usuario = document.getElementById("admin-usuario").value.trim();
+                const senha = document.getElementById("admin-senha").value;
+                const confirmarSenha = document.getElementById(
+                    "admin-confirmar-senha"
+                ).value;
+
+                if (senha !== confirmarSenha) {
+                    mensagem.textContent = "As senhas não coincidem.";
+                    mensagem.style.color = "#b42318";
+                    return;
+                }
+
+                botaoPrimeiroAcesso.disabled = true;
+
+                try {
+                    const primeiroAcesso = await verificarPrimeiroAcessoPNCD();
+
+                    if (!primeiroAcesso) {
+                        throw new Error(
+                            "O administrador inicial já foi configurado."
+                        );
+                    }
+
+                    await cadastrarPrimeiroAdministradorPNCD({
+                        nome,
+                        matricula,
+                        usuario,
+                        senha
+                    });
+
+                    mensagem.textContent =
+                        "Administrador cadastrado! Entre com seu usuário e senha.";
+                    mensagem.style.color = "#176b46";
+
+                    document.getElementById("admin-senha").value = "";
+                    document.getElementById("admin-confirmar-senha").value = "";
+
+                    camposPrimeiroAdmin.style.display = "none";
+                    areaPrimeiroAcesso.style.display = "none";
+
+                    botaoEntrar.disabled = false;
+
+                } catch (erro) {
+                    mensagem.textContent =
+                        erro.message || "Erro ao cadastrar administrador.";
+                    mensagem.style.color = "#b42318";
+
+                    // Atualiza a disponibilidade da configuração inicial.
+                    await verificarConfiguracaoInicial();
+
+                } finally {
+                    botaoPrimeiroAcesso.disabled = false;
+                }
+            });
+
+        async function realizarLogin() {
+
+            const usuario = campoUsuario.value.trim();
+            const senha = campoSenha.value;
+
+            if (!usuario || !senha) {
+                mensagem.textContent = "Informe usuário e senha.";
+                mensagem.style.color = "#b42318";
+                return;
+            }
+
+            botaoEntrar.disabled = true;
+            mensagem.textContent = "Verificando credenciais...";
+            mensagem.style.color = "#333333";
+
+            try {
+                const usuarioAutenticado =
+                    await autenticarUsuarioPNCD(usuario, senha);
+                    // PNCD OFFLINE - SESSÃO DO USUÁRIO
+                const dadosSessao = {
+                    id: usuarioAutenticado.id,
+                    nome: usuarioAutenticado.nome,
+                    matricula: usuarioAutenticado.matricula,
+                    usuario: usuarioAutenticado.usuario,
+                    perfil: usuarioAutenticado.perfil,
+                    supervisor_id: usuarioAutenticado.supervisor_id,
+                    inicio: new Date().toISOString()
+                };
+
+            sessionStorage.setItem(
+                "pncd_usuario_logado",
+                JSON.stringify(dadosSessao)
+            );
+                campoSenha.value = "";
+
+                mensagem.textContent =
+                    "Login realizado com sucesso!";
+                mensagem.style.color = "#176b46";
+
+                console.log(
+                    "PNCD Offline: autenticação concluída.",
+                    usuarioAutenticado.perfil
+                );
+
+                // PNCD OFFLINE - REDIRECIONAMENTO APÓS LOGIN
+                window.location.replace("painel.html");
+
+            } catch (erro) {
+
+                campoSenha.value = "";
+
+                mensagem.textContent =
+                    erro.message === "Informe usuário e senha."
+                        ? erro.message
+                        : "Usuário ou senha inválidos.";
+
+                mensagem.style.color = "#b42318";
+
+            } finally {
+                botaoEntrar.disabled = false;
+            }
+        }
+
+        botaoEntrar.addEventListener("click", realizarLogin);
+
+        campoSenha.addEventListener("keydown", (evento) => {
+            if (evento.key === "Enter") {
+                evento.preventDefault();
+                realizarLogin();
+            }
+        });
+    });
+</script>
+</body>
+</html>

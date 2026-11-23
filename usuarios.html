@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerenciar Usuários | PNCD Offline — CMB-SOFT</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+body{margin:0;min-height:100vh;background:#061426;color:#f4f8ff;font-family:Arial,sans-serif;background-image:linear-gradient(rgba(6,20,38,.9),rgba(6,20,38,.9)),url('imagens/logo_cmb_soft.png');background-repeat:no-repeat;background-position:center;background-size:420px auto;background-attachment:fixed}
+main{max-width:950px;margin:28px auto;padding:18px}h1,h2{text-align:center}h1{font-size:1.7rem}h2{font-size:1.3rem}.painel{background:rgba(6,20,38,.94);border:1px solid #00d4ff;border-radius:12px;padding:22px;margin:20px 0}label{display:block;font-weight:bold;margin-bottom:6px}input,select{width:100%;box-sizing:border-box;padding:12px;border-radius:6px;border:1px solid #69cde4;font-size:16px;background:#fff;color:#102235}.campos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.linha-inteira{grid-column:1/-1}.ajuda{font-size:.85rem;color:#bacbd8;margin-top:5px}button{border:0;border-radius:7px;padding:12px 18px;font-weight:bold;cursor:pointer;background:#0088cc;color:#fff}button:disabled{opacity:.55;cursor:not-allowed}.secundario{background:#56697d}.perigo{background:#b43c45}.sucesso{color:#76f1a5}.erro{color:#ff8585}.mensagem{min-height:20px;margin-top:12px}a{color:#66dfff}.tabela{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #365066;text-align:left;vertical-align:middle}th{color:#9ce8ff}td button{padding:8px 10px;white-space:nowrap}.topo{text-align:center}.oculto{display:none!important}@media(max-width:650px){.campos{grid-template-columns:1fr}main{padding:10px}.painel{padding:14px}}
+/* Espaçamento entre os botões Editar e Desativar */
+#tabela-usuarios td button {
+    margin-bottom: 8px;
+}
+#tabela-usuarios td button:last-child {
+    margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+<main>
+<h1>PNCD V9 OFFLINE</h1>
+<h2>CMB-SOFT — Soluções Inteligentes</h2>
+<p class="topo"><a href="painel.html">⬅ Voltar ao Painel Principal</a></p>
+<div id="conteudo-admin" class="oculto">
+<section class="painel">
+<h2>Cadastro de Supervisores e Agentes</h2>
+<p>Somente para uso administrativo neste dispositivo. Para confirmar um cadastro, informe também a senha do administrador conectado.</p>
+<form id="form-cadastro" autocomplete="off">
+<div class="campos">
+<div><label for="nome-completo">Nome completo</label><input id="nome-completo" required minlength="3" maxlength="150" autocomplete="name"></div>
+<div><label for="matricula">Matrícula</label><input id="matricula" required maxlength="30"></div>
+<div><label for="perfil-usuario">Perfil do usuário</label><select id="perfil-usuario" required><option value="">Selecione</option><option value="supervisor">Supervisor</option><option value="agente">Agente</option></select></div>
+<div id="grupo-supervisor" class="oculto"><label for="supervisor-usuario">Supervisor responsável (opcional)</label><select id="supervisor-usuario"><option value="">Sem vínculo por enquanto</option></select></div>
+<div><label for="login-usuario">Nome de usuário (Login)</label><input id="login-usuario" required minlength="4" maxlength="30" autocomplete="off" autocapitalize="none"><div class="ajuda">4 a 30 caracteres: letras minúsculas, números, ponto, hífen ou underline.</div><div id="mensagem-login-duplicado" class="mensagem" aria-live="polite"></div></div>
+<div><label for="senha-usuario">Senha do novo usuário</label><input type="password" id="senha-usuario" required minlength="12" autocomplete="new-password"><div class="ajuda">Mínimo de 12 caracteres.</div></div>
+<div><label for="confirmar-senha">Confirmar senha</label><input type="password" id="confirmar-senha" required minlength="12" autocomplete="new-password"></div>
+<div><label for="senha-administrador">Sua senha de administrador</label><input type="password" id="senha-administrador" required autocomplete="current-password"><div class="ajuda">Confirma a operação. Não será armazenada.</div></div>
+</div>
+<div id="mensagem-validacao-cadastro" class="mensagem" role="status" aria-live="polite"></div>
+<button id="btn-cadastrar-usuario" type="submit">CADASTRAR USUÁRIO</button>
+<button class="secundario" type="reset">Limpar campos</button>
+</form>
+</section>
+<section class="painel oculto" id="painel-edicao">
+<h2>Editar usuário</h2>
+<p>O ID, a senha, a situação do cadastro e os registros existentes serão preservados. Para salvar, confirme com a senha do administrador.</p>
+<form id="form-edicao" autocomplete="off">
+<div class="campos">
+<div><label for="ed-nome">Nome completo</label><input id="ed-nome" required minlength="3" maxlength="150"></div>
+<div><label for="ed-matricula">Matrícula</label><input id="ed-matricula" required maxlength="30"></div>
+<div><label for="ed-login">Login</label><input id="ed-login" required minlength="4" maxlength="30" autocapitalize="none"></div>
+<div><label for="ed-perfil">Perfil</label><select id="ed-perfil" required><option value="supervisor">Supervisor</option><option value="agente">Agente</option></select></div>
+<div id="ed-grupo-supervisor" class="oculto"><label for="ed-supervisor">Supervisor responsável</label><select id="ed-supervisor"><option value="">Sem vínculo</option></select></div>
+<div><label for="ed-senha-admin">Senha do administrador para confirmar</label><input id="ed-senha-admin" type="password" required autocomplete="current-password"></div>
+</div>
+<div id="mensagem-edicao" class="mensagem" role="status" aria-live="polite"></div>
+<button type="submit" id="btn-salvar-edicao">SALVAR ALTERAÇÕES</button>
+<button type="button" class="secundario" id="btn-cancelar-edicao">Cancelar</button>
+</form>
+</section>
+<section class="painel">
+<h2>Usuários cadastrados</h2>
+<p>O administrador não pode ser desativado por esta tela. Usuários desativados não conseguem realizar novos logins.</p>
+<button type="button" id="btn-atualizar">Atualizar lista</button>
+<div id="mensagem-lista" class="mensagem" role="status" aria-live="polite"></div>
+<div class="tabela"><table><thead><tr><th>Nome / Matrícula</th><th>Login</th><th>Perfil</th><th>Supervisor</th><th>Situação</th><th>Ação</th></tr></thead><tbody id="tabela-usuarios"></tbody></table></div>
+</section>
+</div>
+<p id="acesso-mensagem" class="mensagem" role="alert"></p>
+</main>
+<script src="js/banco.js"></script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const aviso = (id, texto, erro = false) => { const el=$(id);el.textContent=texto;el.className='mensagem '+(erro?'erro':'sucesso'); };
+let usuariosAtuais = [];
+let sequenciaConsulta = 0;
+function validarCamposCadastroPNCD(){
+ const nome=$('nome-completo').value.trim(), matricula=$('matricula').value.trim(), perfil=$('perfil-usuario').value;
+ const login=$('login-usuario').value.trim().toLowerCase(), senha=$('senha-usuario').value, confirmar=$('confirmar-senha').value;
+ if(!nome||!matricula||!perfil||!login||!senha||!confirmar) return 'Preencha todos os campos obrigatórios.';
+ if(nome.length<3||nome.length>150) return 'Nome: 3 a 150 caracteres.';
+ if(matricula.length>30) return 'Matrícula: máximo de 30 caracteres.';
+ if(!['supervisor','agente'].includes(perfil)) return 'Selecione um perfil válido.';
+ if(!/^[a-z0-9._-]{4,30}$/.test(login)) return 'Login inválido: use 4 a 30 letras minúsculas, números, ponto, hífen ou underline.';
+ if(senha.length<12) return 'A senha deve ter pelo menos 12 caracteres.';
+ if(senha!==confirmar) return 'As senhas não coincidem.';
+ if(!$('senha-administrador').value) return 'Informe sua senha de administrador para confirmar.';
+ return '';
+}
+async function validarLoginDuplicadoPNCD(){
+ const login=$('login-usuario').value.trim().toLowerCase();
+ if(!login) return 'Informe o nome de usuário.';
+ if(!/^[a-z0-9._-]{4,30}$/.test(login)) return 'Formato de login inválido.';
+ return await verificarLoginExistentePNCD(login) ? 'Este nome de usuário já está cadastrado.' : '';
+}
+async function carregarUsuarios(){
+ try {
+  usuariosAtuais=await listarUsuariosAdministracaoPNCD();
+  const corpo=$('tabela-usuarios'); corpo.replaceChildren();
+  const supervisores=usuariosAtuais.filter(u=>u.perfil==='supervisor'&&u.ativo);
+  const escolha=$('supervisor-usuario'), atual=escolha.value; escolha.replaceChildren(new Option('Sem vínculo por enquanto',''));
+  supervisores.forEach(u=>escolha.add(new Option(u.nome+' ('+u.matricula+')',u.id)));
+  if(supervisores.some(u=>u.id===atual)) escolha.value=atual;
+  for(const u of usuariosAtuais){
+   const tr=document.createElement('tr');
+   const supervisor=usuariosAtuais.find(s=>s.id===u.supervisor_id);
+   const valores=[u.nome+' / '+(u.matricula||''),u.usuario,u.perfil,supervisor?.nome||'—',u.ativo?'Ativo':'Inativo'];
+   valores.forEach(valor=>{const td=document.createElement('td');td.textContent=valor;tr.appendChild(td)});
+   const acoes=document.createElement('td');
+   if(u.perfil!=='administrador'){
+     const editar=document.createElement('button');editar.type='button';editar.textContent='Editar';editar.className='secundario';editar.style.marginRight='6px';editar.addEventListener('click',()=>abrirEdicao(u));acoes.appendChild(editar);
+     const botao=document.createElement('button');botao.type='button';botao.textContent=u.ativo?'Desativar':'Reativar';
+    botao.className=u.ativo?'perigo':'secundario';
+    botao.addEventListener('click',()=>alternarStatus(u));acoes.appendChild(botao);
+   } else acoes.textContent='Protegido';
+   tr.appendChild(acoes);corpo.appendChild(tr);
+  }
+  aviso('mensagem-lista',usuariosAtuais.length+' usuário(s) encontrado(s).');
+ }catch(e){aviso('mensagem-lista',e.message||'Falha ao listar usuários.',true)}
+}
+let idEmEdicao = null;
+function alternarSupervisorEdicao(){
+ $('ed-grupo-supervisor').classList.toggle('oculto',$('ed-perfil').value!=='agente');
+}
+function cancelarEdicao(){
+ idEmEdicao=null;
+ $('form-edicao').reset();
+ $('painel-edicao').classList.add('oculto');
+ $('mensagem-edicao').textContent='';
+}
+function abrirEdicao(u){
+ if(u.perfil==='administrador')return;
+ idEmEdicao=u.id;
+ $('ed-nome').value=u.nome||'';
+ $('ed-matricula').value=u.matricula||'';
+ $('ed-login').value=u.usuario||'';
+ $('ed-perfil').value=u.perfil;
+ const select=$('ed-supervisor');select.replaceChildren(new Option('Sem vínculo',''));
+ usuariosAtuais.filter(s=>s.perfil==='supervisor'&&s.ativo&&s.id!==u.id)
+   .forEach(s=>select.add(new Option(s.nome+' ('+s.matricula+')',s.id)));
+ if(u.supervisor_id && !Array.from(select.options).some(o=>o.value===u.supervisor_id)){
+   const anterior=usuariosAtuais.find(s=>s.id===u.supervisor_id);
+   select.add(new Option((anterior?.nome||'Supervisor anterior')+' (inativo ou indisponível)',u.supervisor_id));
+ }
+ select.value=u.supervisor_id||'';
+ $('ed-senha-admin').value='';
+ $('mensagem-edicao').textContent='';
+ alternarSupervisorEdicao();
+ $('painel-edicao').classList.remove('oculto');
+ $('painel-edicao').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('ed-perfil').addEventListener('change',alternarSupervisorEdicao);
+$('btn-cancelar-edicao').addEventListener('click',cancelarEdicao);
+$('form-edicao').addEventListener('submit',async evento=>{
+ evento.preventDefault();
+ if(!idEmEdicao)return;
+ const id=idEmEdicao;
+ const dados={
+  nome:$('ed-nome').value,matricula:$('ed-matricula').value,
+  usuario:$('ed-login').value,perfil:$('ed-perfil').value,
+  supervisor_id:$('ed-perfil').value==='agente' ? $('ed-supervisor').value : null
+ };
+ const senha=$('ed-senha-admin').value;
+ const botao=$('btn-salvar-edicao');botao.disabled=true;
+ try{
+  await editarUsuarioAdministracaoPNCD(id,dados,senha);
+  cancelarEdicao();
+  await carregarUsuarios();
+  aviso('mensagem-lista','Usuário atualizado com sucesso.');
+ }catch(e){aviso('mensagem-edicao',e.message||'Não foi possível salvar a edição.',true)}
+ finally{$('ed-senha-admin').value='';botao.disabled=false;}
+});
+
+async function alternarStatus(u){
+ const acao=u.ativo?'desativar':'reativar';
+ if(!confirm('Deseja '+acao+' o usuário '+u.nome+'?')) return;
+ const senha=prompt('Informe sua senha de administrador para confirmar:');
+ if(senha===null) return;
+ try{await alterarStatusUsuarioAdministracaoPNCD(u.id,!u.ativo,senha);aviso('mensagem-lista','Situação atualizada.');await carregarUsuarios()}
+ catch(e){aviso('mensagem-lista',e.message||'Erro ao alterar situação.',true)}
+}
+
+async function iniciar() {
+    let sessao;
+
+    // 1. Verificar autorização do administrador
+    try {
+        sessao = sessaoAdministradorPNCD();
+    } catch (e) {
+        console.error("Falha de autorização:", e);
+
+        $('acesso-mensagem').textContent =
+            e.message || 'Acesso não autorizado.';
+
+        setTimeout(() => {
+            location.replace('index.html');
+        }, 1800);
+
+        return;
+    }
+
+    // 2. Administrador autenticado
+    $('conteudo-admin').classList.remove('oculto');
+
+    $('acesso-mensagem').textContent =
+        'Administrador: ' + sessao.nome;
+
+    // 3. Verificar banco e funções
+    try {
+        const banco = await abrirBanco();
+        banco.close();
+
+        if (
+            typeof cadastrarUsuarioAdministracaoPNCD !== 'function'
+        ) {
+            throw new Error(
+                'Atualize também o arquivo js/banco.js.'
+            );
+        }
+
+        // 4. Carregar usuários
+        await carregarUsuarios();
+
+    } catch (e) {
+        console.error(
+            'Erro ao inicializar gerenciamento de usuários:',
+            e
+        );
+
+        $('acesso-mensagem').textContent =
+            'Administrador autenticado. ' +
+            'Não foi possível carregar os dados: ' +
+            (e.message || 'Erro desconhecido.');
+    }
+}
+
+$('perfil-usuario').addEventListener('change',()=>$('grupo-supervisor').classList.toggle('oculto',$('perfil-usuario').value!=='agente'));
+$('login-usuario').addEventListener('input',()=>{sequenciaConsulta++;$('mensagem-login-duplicado').textContent=''});
+$('login-usuario').addEventListener('blur',async()=>{
+ const sequencia=++sequenciaConsulta,login=$('login-usuario').value;
+ if(!login.trim())return;
+ try{const erro=await validarLoginDuplicadoPNCD();if(sequencia!==sequenciaConsulta||login!==$('login-usuario').value)return;aviso('mensagem-login-duplicado',erro||'Nome de usuário disponível.',Boolean(erro))}
+ catch(e){if(sequencia===sequenciaConsulta)aviso('mensagem-login-duplicado','Não foi possível verificar o login.',true)}
+});
+$('form-cadastro').addEventListener('submit',async evento=>{
+ evento.preventDefault();const erro=validarCamposCadastroPNCD();if(erro){aviso('mensagem-validacao-cadastro',erro,true);return}
+ const botao=$('btn-cadastrar-usuario');botao.disabled=true;
+ try{
+  const duplicado=await validarLoginDuplicadoPNCD();if(duplicado)throw new Error(duplicado);
+  const dados={nome:$('nome-completo').value,matricula:$('matricula').value,perfil:$('perfil-usuario').value,usuario:$('login-usuario').value,senha:$('senha-usuario').value,supervisor_id:$('perfil-usuario').value==='agente'?$('supervisor-usuario').value:null};
+  await cadastrarUsuarioAdministracaoPNCD(dados,$('senha-administrador').value);
+  $('form-cadastro').reset();$('grupo-supervisor').classList.add('oculto');$('mensagem-login-duplicado').textContent='';
+  aviso('mensagem-validacao-cadastro','Usuário cadastrado com sucesso.');
+const mensagemSucesso = $('mensagem-validacao-cadastro');
+const textoSucesso = mensagemSucesso.textContent;
+
+setTimeout(() => {
+    if (mensagemSucesso.textContent === textoSucesso) {
+        mensagemSucesso.textContent = '';
+    }
+}, 8000);
+await carregarUsuarios();
+ }catch(e){aviso('mensagem-validacao-cadastro',e.message||'Não foi possível cadastrar.',true)}
+ finally{botao.disabled=false;$('senha-administrador').value=''}
+});
+$('form-cadastro').addEventListener('reset', () => {
+    sequenciaConsulta++;
+
+    setTimeout(() => {
+        $('mensagem-login-duplicado').textContent = '';
+        $('grupo-supervisor').classList.add('oculto');
+    }, 0);
+});
+$('btn-atualizar').addEventListener('click',carregarUsuarios);
+iniciar();
+</script>
+</body>
+</html>

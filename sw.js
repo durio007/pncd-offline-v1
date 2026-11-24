@@ -4,7 +4,7 @@
    ========================================== */
 
 // Alterar este nome a cada nova publicacao de arquivos do aplicativo.
-const CACHE_NAME = 'pncd-offline-v1.0-github';
+const CACHE_NAME = 'pncd-offline-v1.0-github-v2';
 
 
 const ARQUIVOS_OFFLINE = [
@@ -51,7 +51,7 @@ self.addEventListener('fetch', event => {
     if (url.origin !== self.location.origin) return;
 
     const ehArquivoAplicativo = requisicao.mode === 'navigate' ||
-        /\.(?:html|js|css|json)$/i.test(url.pathname);
+        /\.(?:html|js|css|json|png|jpg|jpeg|svg|webp|ico)$/i.test(url.pathname);
     if (!ehArquivoAplicativo) return;
 
     // Rede primeiro: recebe atualizacoes quando o servidor esta disponivel.
@@ -65,9 +65,25 @@ self.addEventListener('fetch', event => {
             }
             return resposta;
         } catch (erro) {
+
             const salva = await cache.match(requisicao);
-            if (salva) return salva;
-            throw erro;
+                if (salva) return salva;
+
+                // Permitir abertura de formularios offline com ID.
+                if (/\.html$/i.test(url.pathname)) {
+                    const paginaBase = new URL(requisicao.url);
+
+                    paginaBase.search = '';
+                    paginaBase.hash = '';
+
+                    const paginaSalva = await cache.match(
+                        paginaBase.href
+                    );
+
+                    if (paginaSalva) return paginaSalva;
+                }
+
+                throw erro;
         }
     })());
 });

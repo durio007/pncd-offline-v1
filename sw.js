@@ -4,7 +4,7 @@
    ========================================== */
 
 // Alterar este nome a cada nova publicacao de arquivos do aplicativo.
-const CACHE_NAME = 'pncd-offline-v1.0-github-v2';
+const CACHE_NAME = 'pncd-offline-v1.0-github-v3';
 
 
 const ARQUIVOS_OFFLINE = [
@@ -70,7 +70,7 @@ self.addEventListener('fetch', event => {
                 if (salva) return salva;
 
                 // Permitir abertura de formularios offline com ID.
-                if (/\.html$/i.test(url.pathname)) {
+                if (/\.(?:html|js|css|json|png|jpg|jpeg|svg|webp|ico)$/i.test(url.pathname)) {
                     const paginaBase = new URL(requisicao.url);
 
                     paginaBase.search = '';

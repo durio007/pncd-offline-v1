@@ -4,7 +4,7 @@
    ========================================== */
 
 // Alterar este nome a cada nova publicacao de arquivos do aplicativo.
-const CACHE_NAME = 'pncd-offline-v1.0-github-v3';
+const CACHE_NAME = 'pncd-offline-v1.0-github-v4';
 
 
 const ARQUIVOS_OFFLINE = [

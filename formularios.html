@@ -13,6 +13,33 @@
         <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#007BFF">
+<style id="pncd-estilo-retorno">
+    a.pncd-btn-retorno,
+    a.pncd-btn-retorno:visited {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 380px;
+        min-height: 52px;
+        margin: 12px 0;
+        padding: 14px 18px;
+        border: 0;
+        border-radius: 10px;
+        background: #1565C0;
+        color: #ffffff;
+        font: bold 16px/1.3 Arial, sans-serif;
+        text-align: center;
+        text-decoration: none;
+        white-space: normal;
+        cursor: pointer;
+    }
+    a.pncd-btn-retorno:hover { background: #0D47A1; color: #fff; }
+    a.pncd-btn-retorno:active { background: #0A387E; }
+    a.pncd-btn-retorno:focus-visible { outline: 3px solid #00D4FF; outline-offset: 3px; }
+</style>
 </head>
 
 <body>
@@ -76,10 +103,7 @@
         </div>
 
         <div style="text-align: center;">
-            <a href="painel.html"
-                style="color: #00D4FF;">
-             ⬅ Voltar ao Painel Principal
-            </a>
+            <a href="painel.html" class="pncd-btn-retorno"><span aria-hidden="true">←</span> VOLTAR AO PAINEL PRINCIPAL</a>
         </div>
 
     </main>
@@ -361,10 +385,16 @@ document.getElementById("btn-novo-formulario")
             botao.disabled = true;
             botao.textContent = "CRIANDO FORMULÁRIO...";
 
+
+            // CONSULTAR SUPERVISOR VINCULADO AO AGENTE
+            const supervisor = await consultarSupervisorDoAgentePNCD();
+
             const novoFormulario = {
                 agente_id: usuario.id,
                 agente_nome: usuario.nome,
                 agente_matricula: usuario.matricula,
+                supervisor_id: supervisor ? supervisor.id : null,
+                supervisor_nome: supervisor ? supervisor.nome : "",
                 status: "rascunho",
                 criado_em: new Date().toISOString(),
                 atualizado_em: new Date().toISOString()

@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Imprimir FAD 01 | PNCD V9 OFFLINE</title>
+    <title>Imprimir FAD 01 | PNCD Offline V1.0</title>
 
     <style>
         @page {
@@ -28,26 +28,42 @@
             box-sizing: border-box;
         }
 
-        .titulo-principal {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
+        /* FAD 01 - DIMENSÕES DA VISUALIZAÇÃO */
+
+        @media screen {
+            #conteudo-impressao {
+                width: 287mm;
+                min-width: 287mm;
+                box-sizing: border-box;
+                margin: 0 auto;
+            }
+
+            body {
+                overflow-x: auto;
+            }
         }
 
-        .subtitulo {
-            text-align: center;
-            font-size: 13px;
-            font-weight: bold;
+        @media print {
+            #conteudo-impressao {
+                width: 100%;
+                min-width: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
         }
         
         /* CABEÇALHO COM LOGOTIPOS INSTITUCIONAIS */
 
         .cabecalho-fad01 {
             display: grid;
-            grid-template-columns: 55% 45%;
+            grid-template-columns:
+            minmax(0, 55fr)
+            minmax(0, 45fr);
             align-items: center;
             gap: 4px;
             margin-bottom: 5px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .identidade-institucional {
@@ -65,38 +81,31 @@
         }
 
         .instituicao {
-            font-size: 7px;
+            font-size: 9px;
             line-height: 1.3;
-        }
+    }
 
         .instituicao strong {
-            font-size: 8px;
-        }
-
-
-        .instituicao {
-            font-size: 7px;
-            line-height: 1.3;
-        }
-
-        .instituicao strong {
-            font-size: 8px;
-        }
+            font-size: 10px;
+    }
 
         .titulos-fad01 {
             text-align: center;
         }
 
         .titulo-principal {
+            text-align: center;
             font-size: 13px;
+            font-weight: bold;
             margin: 0 0 3px 0;
         }
 
         .subtitulo {
+            text-align: center;
             font-size: 15px;
+            font-weight: bold;
             margin: 0;
         }
-
         /* IDENTIFICAÇÃO DO FORMULÁRIO FAD 01 */
 
         .identificacao-fad01 {
@@ -138,7 +147,10 @@
 
             .atividade-fad01 {
                 display: grid;
-                grid-template-columns: 16% 16% 68%;
+                grid-template-columns:
+                minmax(0, 16fr)
+                minmax(0, 16fr)
+                minmax(0, 68fr);
                 width: 100%;
                 margin-top: 5px;
                 gap: 4px;
@@ -169,13 +181,20 @@
 
             .opcoes-atividades {
                 display: grid;
-                grid-template-columns: 34px 1fr 1.5fr 1.15fr;
-                grid-template-rows: 18px 18px;
+                grid-template-columns:
+                26px
+                minmax(0, 1fr)
+                minmax(0, 1.5fr)
+                minmax(0, 1.15fr);
+                grid-template-rows:
+                minmax(22px, auto)
+                minmax(22px, auto);
                 gap: 0;
                 padding: 0;
                 text-align: left;
-                font-size: 9px;
-            }
+                font-size: 8px;
+                box-sizing: border-box;
+        }
 
             .marcacao-atividade {
                 grid-column: 1;
@@ -192,10 +211,14 @@
             .opcao-atividade {
                 display: flex;
                 align-items: center;
-                padding: 1px 4px;
+                justify-content: flex-start;
+                padding: 2px 3px;
                 border-right: 1px solid #000;
                 min-width: 0;
-                line-height: 1.1;
+                line-height: 1.2;
+                white-space: normal;
+                overflow-wrap: break-word;
+                box-sizing: border-box;
             }
 
             .opcao-atividade:nth-child(2),
@@ -238,51 +261,29 @@
                 margin: 0;
             }
 
+                /* CONFIGURAÇÃO PADRONIZADA DA TABELA FAD 01 */
+
             .tabela-fad01 th,
             .tabela-fad01 td {
                 border: 1px solid #000;
                 box-sizing: border-box;
                 text-align: center;
                 vertical-align: middle;
-                padding: 1px;
-                font-family: Arial, sans-serif;
-            }
-
-            .tabela-fad01 th {
-                background: #e5e5e5;
-                font-size: 6px;
-                font-weight: bold;
-            }
-
-            .tabela-fad01 td {
-                font-size: 7px;
-                height: 17px;
-            }
-
-
-            .tabela-fad01 th,
-            .tabela-fad01 td {
-                border: 1px solid #000;
                 padding: 2px 1px;
-                font-size: 5.5px;
-                text-align: center;
-                overflow-wrap: anywhere;
-                vertical-align: middle;
+                font-family: Arial, sans-serif;
+                overflow-wrap: break-word;
+                line-height: 1.2;
             }
 
             .tabela-fad01 th {
                 background: #eeeeee;
+                font-size: 8px;
                 font-weight: bold;
             }
 
             .tabela-fad01 td {
-                height: 13px;
-            }
-
-            .tabela-fad01 th:nth-child(4),
-            .tabela-fad01 td:nth-child(4) {
-                width: 12%;
-                text-align: left;
+                font-size: 9px;
+                height: 20px;
             }
 
             @media print {
@@ -343,25 +344,14 @@
                     height: 105px;
                 }
             }
-                /* EVITAR QUE REGRAS ANTIGAS ALTEREM AS LARGURAS */
-                .tabela-fad01 th:nth-child(4),
-                .tabela-fad01 td:nth-child(4) {
-                    width: auto;
-            }
+                /* ALINHAMENTO DO NOME DO LOGRADOURO */
+
+                .tabela-fad01 tbody td:nth-child(4) {
+                    text-align: left;
+                    padding-left: 3px;
+}
 
                 /* FAD 01 - MELHORIA DA LEGIBILIDADE */
-
-                .tabela-fad01 td {
-                    font-size: 9px;
-                    height: 20px;
-                    line-height: 1.2;
-                    padding: 2px 1px;
-                }
-
-                .tabela-fad01 th {
-                    font-size: 8px;
-                    line-height: 1.2;
-                }
 
                 .tabela-fad01 th.cabecalho-vertical > span {
                     font-size: 8px;
@@ -386,12 +376,43 @@
                     font-size: 10px;
                 }
 
-                .instituicao {
-                    font-size: 9px;
+                /* AJUSTE DAS LINHAS PARA IMPRESSÃO A4 */
+
+            @media print {
+
+                .tabela-fad01 tbody td {
+                    height: 18px;
+                    font-size: 8px;
+                    padding: 1px;
+                    line-height: 1.1;
+                    }
+
+                .tabela-fad01 tbody tr.linha-vazia-fad01 td {
+                    height: 18px;
+                    }
                 }
 
-                .instituicao strong {
-                    font-size: 10px;
+                    /* CÉLULAS INFERIORES DA TABELA FAD 01 */
+                .tabela-fad01 tfoot {
+                    display: table-row-group;
+                }
+
+                .tabela-fad01 tfoot td {
+                    background-color: #e5e5e5;
+                    font-size: 8px;
+                    font-weight: bold;
+                    height: 22px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                .tabela-fad01 tfoot tr {
+                    break-inside: avoid;
+                    page-break-inside: avoid;
+                }
+
+                .tabela-fad01 tfoot td[colspan="11"] {
+                    background-color: #ffffff;
                 }
 
                 /* RODAPÉ OFICIAL FAD 01 */
@@ -404,8 +425,12 @@
 
                 .assinaturas-fad01 {
                     display: grid;
-                    grid-template-columns: 24.5% 24.5%;
-                    gap: 1%;
+                    grid-template-columns:
+                    minmax(0, 1fr)
+                    minmax(0, 1fr);
+                    gap: 4px;
+                    width: 50%;
+                    box-sizing: border-box;
                 }
 
                 .assinatura-fad01 {
@@ -441,16 +466,59 @@
                     margin-top: 4px;
                     margin-left: 25px;
                 }
+                
+/* Acabamento de impressão — CMB-SOFT */
+.identificacao-compacta-fad01 { display: none; }
+.assinaturas-fad01 { width: 100%; gap: 8px; }
+.assinatura-fad01 { min-height: 48px; height: auto; }
+.rotulo-assinatura { width: 80px; font-size: 9px; }
+.nome-assinatura { align-items: flex-end; padding: 4px; overflow-wrap: anywhere; text-align: center; }
+@page {
+    size: A4 landscape;
+    margin: 5mm 5mm 9mm;
+    @bottom-right { content: "Página " counter(page) " / " counter(pages); font: 9pt Arial; }
+}
+@media print {
+    .identificacao-compacta-fad01 { display: table-row; }
+    .tabela-fad01 thead { display: table-header-group; break-inside: avoid; }
+    .tabela-fad01 thead #pdf-identificacao-compacta {
+        background: #fff; font-size: 9px; line-height: 1.2;
+        padding: 3px; text-align: left; overflow-wrap: anywhere;
+    }
+    .tabela-fad01 tbody td { font-size: 9px; height: 19px; }
+    .tabela-fad01 tbody tr.linha-vazia-fad01 td { height: 19px; }
+    .tabela-fad01 tfoot td { font-size: 9px; }
+    .tabela-fad01 thead > tr:nth-child(2) th { font-size: 9px; }
+    .campo-fad strong { flex: 1; }
+}
 
-  </style>
+
+/* Paginação: grupo final indivisível, sem repetir totais. */
+.tabela-fad01 tfoot .ultimo-imovel-fad01 td {
+    background: white; font-weight: normal; height: 20px;
+}
+.tabela-fad01 tfoot .ultimo-imovel-fad01 td:nth-child(4) { text-align: left; padding-left: 3px; }
+.tabela-fad01 tfoot .linha-assinaturas-fad01 > td {
+    border: none; background: white; padding: 0; height: auto;
+    text-align: left; font-weight: normal;
+}
+@media print {
+    .tabela-fad01 tbody td,
+    .tabela-fad01 tbody tr.linha-vazia-fad01 td,
+    .tabela-fad01 tfoot .ultimo-imovel-fad01 td { height: 17px; font-size: 9px; padding: 1px; line-height: 1.1; }
+    .tabela-fad01 tfoot { display: table-row-group; break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
 </head>
 
 <body>
    
       <main id="conteudo-impressao">
           <!-- CABEÇALHO INSTITUCIONAL FAD 01 -->
+          <!-- PESQUISA ENTOMOLÓGICA / TRATAMENTO -->
+
           
-<header class="cabecalho-fad01">
+                             <header class="cabecalho-fad01">
 
                 <div class="identidade-institucional">
                   <img
@@ -489,10 +557,9 @@
                       RESUMO DIÁRIO DO SERVIÇO ANTIVETORIAL
                   </h2>
             </div>
-          </header>
+        </header>
 
-          <!-- IDENTIFICAÇÃO DO FORMULÁRIO FAD 01 -->
-          <section class="identificacao-fad01">
+        <section class="identificacao-fad01">
 
               <div class="campo-fad municipio">
                   <strong>Município</strong>
@@ -528,12 +595,10 @@
                   <strong>Zona Concluída?</strong>
                   <span id="pdf-zona-concluida">-</span>
               </div>
+        </section>
 
-          </section>
-
-          <!-- DATA, CICLO E ATIVIDADES FAD 01 -->
-
-          <section class="atividade-fad01">
+         <!-- DATA, CICLO E ATIVIDADES FAD 01 -->
+        <section class="atividade-fad01">
 
               <div class="campo-atividade data-atividade">
                   <strong>Data da atividade</strong>
@@ -551,9 +616,9 @@
 
                   
                     <div class="opcoes-atividades">
-
+                       
                         <div class="marcacao-atividade" id="pdf-marcacao-atividade">
-                            X
+                            -
                         </div>
 
                         <div class="opcao-atividade">
@@ -588,45 +653,59 @@
 
               </div>
 
-          </section>
-
-          <!-- PESQUISA ENTOMOLÓGICA / TRATAMENTO -->
-
-          <section class="pesquisa-fad01">
-
-              <h3 class="titulo-pesquisa">
+          </section>    
+                 
+                
+<section class="pesquisa-fad01">
+<h3 class="titulo-pesquisa">
                   PESQUISA ENTOMOLÓGICA / TRATAMENTO
               </h3>
 
               <table class="tabela-fad01">
                     
-                <colgroup>
-                    <!-- IDENTIFICAÇÃO DO IMÓVEL -->
-                    <col style="width: 2.5%">
-                    <col style="width: 2.5%">
-                    <col style="width: 2%">
-                    <col style="width: 16%">
-                    <col style="width: 2.5%">
-                    <col style="width: 2.5%">
-                    <col style="width: 5%">
-                    <col style="width: 4%">
+                    <colgroup>
+                        <!-- IDENTIFICAÇÃO DO IMÓVEL -->
+                        <col style="width: 3%">
+                        <col style="width: 3%">
+                        <col style="width: 2%">
+                        <col style="width: 16%">
+                        <col style="width: 3%">
+                        <col style="width: 3%">
+                        <col style="width: 5%">
+                        <col style="width: 4%">
 
-                    <!-- VISITA / PENDÊNCIA -->
-                    <col style="width: 3%">
-                    <col style="width: 2.5%">
-                    <col style="width: 2.5%">
+                        <!-- VISITA / PENDÊNCIA -->
+                        <col style="width: 4%">
+                        <col style="width: 2.5%">
+                        <col style="width: 2.5%">
 
-                    <!-- DEPÓSITOS -->
-                    <col span="7" style="width: 2.5%">
+                        <!-- DEPÓSITOS -->
+                        <col span="7" style="width: 2%">
 
-                    <!-- INSPEÇÃO / COLETA -->
-                    <col span="5" style="width: 2.5%">
+                        <!-- INSPEÇÃO / COLETA -->
+                        <col style="width: 2.5%">
+                        <col style="width: 3%">
+                        <col style="width: 2.5%">
+                        <col style="width: 2.5%">
+                        <col style="width: 2.5%">
 
-                    <!-- TRATAMENTO -->
-                    <col span="9" style="width: 2.5%">
-                </colgroup>
+                        <!-- TRATAMENTO -->
+                        <col style="width: 3%">
+                        <col style="width: 3%">
+                        <col style="width: 2%">
+                        <col style="width: 3%">
+                        <col style="width: 3%">
+                        <col style="width: 2.5%">
+                        <col style="width: 3%">
+                        <col style="width: 2.5%">
+                        <col style="width: 3%">
+                    </colgroup>
 
                   <thead>
+
+                    <tr class="identificacao-compacta-fad01">
+                        <th colspan="32" id="pdf-identificacao-compacta"></th>
+                    </tr>
                       <tr>
                           <th colspan="8">IDENTIFICAÇÃO DO IMÓVEL</th>
                           <th colspan="3">VISITA / PENDÊNCIA</th>
@@ -680,14 +759,41 @@
 
                   </thead>
 
-                  <tbody id="pdf-linhas-imoveis">
-                      <!-- Imóveis carregados do IndexedDB -->
-                  </tbody>
-              </table>
-          </section>
-                  <!-- RODAPÉ OFICIAL FAD 01 -->
+                    <tbody id="pdf-linhas-imoveis">
+                        <!-- Imóveis carregados do IndexedDB -->
+                    </tbody>
+                    <!-- CÉLULAS INFERIORES DO FAD 01 -->
+                    <tfoot id="pdf-rodape-tabela">
+                        <tr id="pdf-linha-totais">
+                            <td colspan="11"></td>
+                            <!-- DEPÓSITOS -->
+                            <td id="pdf-total-a1"></td>
+                            <td id="pdf-total-a2"></td>
+                            <td id="pdf-total-b"></td>
+                            <td id="pdf-total-c"></td>
+                            <td id="pdf-total-d1"></td>
+                            <td id="pdf-total-d2"></td>
+                            <td id="pdf-total-e"></td>
 
-                  <footer class="rodape-fad01">
+                            <!-- INSPEÇÃO / COLETA -->
+                            <td id="pdf-total-inspecionados-li"></td>
+                            <td></td>
+                            <td id="pdf-total-tubitos"></td>
+                            <td></td>
+                            <td></td>
+
+                            <!-- TRATAMENTO -->
+                            <td id="pdf-total-depositos-eliminados"></td>
+                            <td id="pdf-total-imoveis-tratados"></td>
+                            <td></td>
+                            <td id="pdf-total-carga-larvicida"></td>
+                            <td id="pdf-total-quantidade-tratados"></td>
+                            <td></td>
+                            <td id="pdf-total-cargas-adulticida"></td>
+                            <td></td>
+                            <td id="pdf-total-cargas-perifocal"></td>
+                        </tr>
+                    <tr class="linha-assinaturas-fad01"><td colspan="32"><footer class="rodape-fad01">
 
                       <div class="assinaturas-fad01">
 
@@ -714,12 +820,18 @@
                       <div class="identificacao-rodape">
                           FAD 01 - Diário
                       </div>
-                  </footer>
+                  </footer></td></tr>
+                    </tfoot>
+                    </table>
+          </section>
+                  <!-- RODAPÉ OFICIAL FAD 01 -->
+
+                  
       </main>
 
     <script src="js/banco.js?v=61"></script>
         <script>
-            // PNCD V9 OFFLINE - IMPRESSÃO FAD 01
+            // PNCD Offline V1.0 - IMPRESSÃO FAD 01
             // Preparação das colunas dos imóveis
 
             const CAMPOS_IMPRESSAO_FAD01 = [
@@ -780,20 +892,123 @@
 
             function preencherTabelaImpressao(imoveis) {
                 const corpo = document.getElementById(
-                    "pdf-linhas-imoveis"
+                "pdf-linhas-imoveis"
+            );
+
+            document.querySelector("#pdf-rodape-tabela .ultimo-imovel-fad01")?.remove();
+            corpo.replaceChildren();
+
+            // INSERIR OS IMÓVEIS CADASTRADOS
+            imoveis.forEach(function(imovel) {
+                corpo.appendChild(
+                    criarLinhaImpressao(imovel)
                 );
+            });
 
-                corpo.replaceChildren();
+            // COMPLETAR AS LINHAS VAZIAS PARA IMPRESSÃO
+            // Reservar espaço para totais e assinaturas na primeira página.
+            const quantidadeMinimaLinhas = 16;
 
-                imoveis.forEach(function(imovel) {
-                    corpo.appendChild(
-                        criarLinhaImpressao(imovel)
-                    );
+            const linhasVazias = Math.max(
+                0,
+                quantidadeMinimaLinhas - imoveis.length
+            );
+
+            for (let i = 0; i < linhasVazias; i++) {
+                const linha = criarLinhaImpressao({});
+
+                linha.classList.add("linha-vazia-fad01");
+
+                corpo.appendChild(linha);
+            }
+        }
+            // =====================================================
+            // CALCULAR TOTAIS PARA IMPRESSÃO DO FAD 01
+            // =====================================================
+            function preencherTotaisFAD01(imoveis) {
+
+                const camposTotais = {
+                    "pdf-total-a1": "deposito_a1",
+                    "pdf-total-a2": "deposito_a2",
+                    "pdf-total-b": "deposito_b",
+                    "pdf-total-c": "deposito_c",
+                    "pdf-total-d1": "deposito_d1",
+                    "pdf-total-d2": "deposito_d2",
+                    "pdf-total-e": "deposito_e",
+
+                    "pdf-total-inspecionados-li": "inspecionados_li",
+                    "pdf-total-tubitos": "quantidade_tubitos",
+
+                    "pdf-total-depositos-eliminados": "depositos_eliminados",
+                    "pdf-total-imoveis-tratados": "imoveis_tratados",
+                    "pdf-total-carga-larvicida": "carga_larvicida",
+                    "pdf-total-quantidade-tratados": "quantidade_tratados",
+                    "pdf-total-cargas-adulticida": "cargas_adulticida",
+                    "pdf-total-cargas-perifocal": "cargas_perifocal"
+                };
+
+                Object.entries(camposTotais).forEach(([id, campo]) => {
+
+                    const total = imoveis.reduce((soma, imovel) => {
+
+                        const valor = Number(imovel[campo]);
+
+                        if (Number.isSafeInteger(valor) && valor >= 0) {
+                            return soma + valor;
+                        }
+
+                        return soma;
+
+                    }, 0);
+
+                    const elemento = document.getElementById(id);
+
+                    if (elemento) {
+                        elemento.textContent = String(total);
+                    }
+
                 });
             }
 
-            // PREENCHIMENTO DAS ASSINATURAS - SOMENTE LEITURA
+            // PREENCHER CABEÇALHO DO FORMULÁRIO FAD 01
+            function preencherCabecalhoFAD01(formulario) {
 
+                const campos = {
+                    "pdf-marcacao-atividade": ["1", "2", "3", "4", "5", "6"].includes(
+                        String(formulario.atividade || "")
+                    )
+                        ? String(formulario.atividade)
+                        : "-",
+                    "pdf-municipio": formulario.municipio,
+                    "pdf-codigo-localidade": formulario.codigo_localidade,
+                    "pdf-localidade": formulario.localidade,
+                    "pdf-categoria": formulario.categoria,
+                    "pdf-zona": formulario.zona,
+                    "pdf-tipo": formulario.tipo,
+                    "pdf-zona-concluida": formulario.zona_concluida,                 
+                    "pdf-data-atividade": /^\d{4}-\d{2}-\d{2}$/.test(
+                        String(formulario.data_atividade || "")
+                    )
+                        ? formulario.data_atividade.split("-").reverse().join("/")
+                        : formulario.data_atividade,
+                    "pdf-ciclo-ano": formulario.ciclo_ano
+                };
+
+                Object.entries(campos).forEach(([id, valor]) => {
+
+                    const elemento = document.getElementById(id);
+
+                    if (elemento) {
+                        elemento.textContent =
+                            valor == null || String(valor).trim() === ""
+                                ? "-"
+                                : String(valor);
+                    }
+
+                });
+
+            }
+            // PREENCHIMENTO DAS ASSINATURAS - SOMENTE LEITURA
             function preencherAssinaturasFAD01(nomeAgente, nomeSupervisor) {
                 const campoAgente = document.getElementById(
                     "pdf-nome-agente"
@@ -847,11 +1062,49 @@
                       return;
                   }
 
+                 
+                  // PREENCHER CABEÇALHO FAD 01
+
+                  preencherCabecalhoFAD01(formulario);
+
+                    // Identificação compacta repetida com as colunas (inclusive na primeira página).
+                    const camposCompactos = [
+                        ["Município", "pdf-municipio"], ["Cód. loc.", "pdf-codigo-localidade"],
+                        ["Localidade", "pdf-localidade"], ["Categoria", "pdf-categoria"],
+                        ["Zona", "pdf-zona"], ["Tipo", "pdf-tipo"],
+                        ["Concluída", "pdf-zona-concluida"], ["Data", "pdf-data-atividade"],
+                        ["Ciclo/ano", "pdf-ciclo-ano"], ["Atividade", "pdf-marcacao-atividade"]
+                    ];
+                    document.getElementById("pdf-identificacao-compacta").textContent =
+                        "FAD 01 | " + camposCompactos.map(([rotulo, id]) =>
+                            rotulo + ": " + document.getElementById(id).textContent
+                        ).join(" | ");
+
+                    // PREENCHER OS NOMES DOS RESPONSÁVEIS
+                    preencherAssinaturasFAD01(
+                        formulario.agente_nome,
+                        formulario.supervisor_nome
+                    );
+
+
+                  // CARREGAR IMÓVEIS PARA IMPRESSÃO
+
                   const imoveis = await listarImoveis(
                       formularioId
                   );
 
                   preencherTabelaImpressao(imoveis);
+
+                  preencherTotaisFAD01(imoveis);
+                  // Manter o último imóvel, totais e assinaturas no mesmo grupo.
+                  const corpoFinal = document.getElementById("pdf-linhas-imoveis");
+                  const grupoFinal = document.getElementById("pdf-rodape-tabela");
+                  const ultimaLinha = corpoFinal.lastElementChild;
+                  if (ultimaLinha) {
+                      ultimaLinha.classList.add("ultimo-imovel-fad01");
+                      grupoFinal.insertBefore(ultimaLinha, grupoFinal.firstElementChild);
+                  }
+
 
                   console.log(
                       "PNCD FAD 01 - Formulário:",

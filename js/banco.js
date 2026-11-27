@@ -280,6 +280,20 @@ async function finalizarFormularioPNCD(formularioId) {
                 return;
             }
 
+                // VALIDAR CICLO/ANO, DATA E ATIVIDADE NO INDEXEDDB
+                    if (
+                        !/^[0-9]{2}\/[0-9]{4}$/.test(
+                            String(formulario.ciclo_ano || "").trim()
+                        ) ||
+                        !String(formulario.data_atividade || "").trim() ||
+                        !["1", "2", "3", "4", "5", "6"].includes(
+                            String(formulario.atividade || "")
+                        )
+                    ) {
+                        transacao.abort();
+                        return;
+                    }
+
             formulario.status = "finalizado";
             formulario.finalizado_em =
                 new Date().toISOString();
@@ -308,8 +322,10 @@ async function finalizarFormularioPNCD(formularioId) {
         transacao.onabort = () => {
             banco.close();
             reject(
-                new Error(
-                    "Finalização bloqueada. Verifique o agente responsável e o status do formulário."
+                new Error(                 
+                "Finalização bloqueada. Verifique o agente responsável, " +
+                "o status do formulário, o Ciclo/Ano (NN/AAAA), " +
+                "a data da atividade e a atividade selecionada."
                 )
             );
         };
@@ -696,7 +712,8 @@ async function atualizarRascunho(formularioId, alteracoes) {
     // Permite alterar somente os campos autorizados
 
 
-    const camposPermitidos = [
+    
+const camposPermitidos = [
     "municipio",
     "codigo_localidade",
     "localidade",
@@ -704,8 +721,11 @@ async function atualizarRascunho(formularioId, alteracoes) {
     "zona",
     "tipo",
     "zona_concluida",
-    "ciclo_ano"
-    ];
+    "ciclo_ano",
+    "data_atividade",
+    "atividade"
+];
+
 
     for (const campo of camposPermitidos) {
 
@@ -1458,10 +1478,36 @@ async function listarImoveis(formularioId) {
             // Registros antigos sem a propriedade "excluido"
             // continuam sendo considerados ativos.
             const imoveisAtivos = todosImoveis.filter(
-                imovel => imovel.excluido !== true
+            imovel => imovel.excluido !== true
             );
 
-            resolve(imoveisAtivos);
+            // ORDENAR IMÓVEIS PELO NÚMERO DE ORDEM
+            imoveisAtivos.sort((a, b) => {
+
+            const ordemA =
+                Number.isSafeInteger(a.numero_ordem) &&
+                a.numero_ordem > 0
+                    ? a.numero_ordem
+                    : Number.MAX_SAFE_INTEGER;
+
+            const ordemB =
+                Number.isSafeInteger(b.numero_ordem) &&
+                b.numero_ordem > 0
+                    ? b.numero_ordem
+                    : Number.MAX_SAFE_INTEGER;
+
+            if (ordemA !== ordemB) {
+                return ordemA - ordemB;
+            }
+
+            // Compatibilidade com registros antigos
+            return String(a.criado_em || "").localeCompare(
+                String(b.criado_em || "")
+            );
+        });
+
+        resolve(imoveisAtivos);
+
         };
 
         requisicao.onerror = () => {
@@ -2410,6 +2456,93 @@ async function confirmarAdministradorPNCD(senhaAdministrador) {
         throw new Error('Administrador não confirmado.');
     }
     return confirmado;
+}
+
+// =====================================================
+// PNCD OFFLINE - CONSULTAR SUPERVISOR VINCULADO AO AGENTE
+// =====================================================
+
+async function consultarSupervisorDoAgentePNCD() {
+
+    const sessao = JSON.parse(
+        sessionStorage.getItem("pncd_usuario_logado") || "null"
+    );
+
+    if (!sessao || sessao.perfil !== "agente" || !sessao.id) {
+        throw new Error("Consulta restrita ao agente.");
+    }
+
+    const banco = await abrirBanco();
+
+    try {
+
+        return await new Promise((resolve, reject) => {
+
+            const tx = banco.transaction("usuarios", "readonly");
+            const tabela = tx.objectStore("usuarios");
+
+            let resultado = null;
+
+            const consultaAgente = tabela.get(sessao.id);
+
+            consultaAgente.onsuccess = () => {
+
+                const agente = consultaAgente.result;
+
+                if (
+                    !agente ||
+                    agente.perfil !== "agente" ||
+                    agente.ativo !== true
+                ) {
+                    tx.abort();
+                    return;
+                }
+
+                if (!agente.supervisor_id) {
+                    return;
+                }
+
+                const consultaSupervisor = tabela.get(
+                    agente.supervisor_id
+                );
+
+                consultaSupervisor.onsuccess = () => {
+
+                    const supervisor = consultaSupervisor.result;
+
+                    if (
+                        supervisor &&
+                        supervisor.perfil === "supervisor" &&
+                        supervisor.ativo === true
+                    ) {
+                        resultado = {
+                            id: supervisor.id,
+                            nome: supervisor.nome
+                        };
+                    }
+
+                };
+
+            };
+
+            tx.oncomplete = () => resolve(resultado);
+
+            tx.onerror = () => reject(
+                tx.error || new Error("Falha ao consultar supervisor.")
+            );
+
+            tx.onabort = () => reject(
+                new Error("Consulta do supervisor cancelada.")
+            );
+
+        });
+
+    } finally {
+
+        banco.close();
+
+    }
+
 }
 
 async function listarUsuariosAdministracaoPNCD() {
